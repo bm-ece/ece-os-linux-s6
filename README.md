@@ -35,3 +35,5 @@ Le simulateur et son option de plafonnement sont exploratoires et ne font pas
 partie des modalités officielles d'évaluation.
 
 > Attention : le site publié est public. Vérifier les droits de diffusion des images et documents.
+
+Déploiement automatique via Cloudflare Workers.
