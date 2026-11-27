@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<link rel="icon" type="image/png" href="assets/favicon-linux-ece.png"><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="Portail pédagogique Operating Systems: Linux — ECE, ING3, semestre 6." name="description"/><title>Operating Systems: Linux · Portail pédagogique ECE</title><link href="assets/site.css" rel="stylesheet"/><style>
+/* Portail permanent : aucun changement aux documents sources. */
+#document-view[hidden], #home-view[hidden]{display:none!important}
+#document-view{min-height:calc(100vh - 74px);background:#f4f8f8}
+.document-toolbar{background:#eef7f7;border-bottom:1px solid #d5e5e5}
+.document-toolbar-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:43px;font-size:12px;color:#005457;font-weight:700}
+#document-original{color:#00787c;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+#document-frame{display:block;width:100%;height:calc(100dvh - 118px);min-height:520px;border:0;background:white}
+@media(max-width:620px){#document-frame{height:calc(100dvh - 153px);min-height:450px}.document-toolbar-inner{min-height:42px}}
+@media print{#document-view{display:none!important}#home-view{display:block!important}}
+</style></head><body><header class="top"><div class="wrap topin"><a class="brand" href="#accueil"><img alt="Logo ECE" src="assets/ece-logo.jpg"/><span>ECE · Operating Systems: Linux<small>ING3 · Semestre 6 · 2026–2027</small></span></a><nav aria-label="Navigation principale" class="nav"><a aria-current="page" href="#accueil">Accueil</a><a href="#syllabus">Syllabus</a><a href="#poster">Poster</a><a href="#planning">Planning</a><a href="#simulateur">Simulateur</a></nav></div></header><div id="home-view"><main><section class="hero"><div class="wrap hero-grid"><div><div class="eyebrow">ECE · École d'ingénieurs · ING3 · S6</div><h1>Operating Systems:<br/>Linux</h1><p>Un espace unique pour consulter les objectifs du module, explorer le programme, suivre les séances et accéder aux ressources pédagogiques.</p><a class="btn" href="#ressources">Explorer les ressources</a><div class="facts"><span class="fact">7 parties pédagogiques</span><span class="fact">28 h de cours et TP</span><span class="fact">6 h de soutenances</span></div></div><img alt="Emblème du module ECE OS Linux S6 avec terminal et mascotte Linux" src="assets/badge-os-linux-ece.png"/></div></section><section class="section" id="ressources"><div class="wrap"><h2>Ressources du module</h2><p class="lead">Quatre espaces distincts, accessibles depuis le menu principal.</p><div class="cards"><a class="card" href="#syllabus"><span class="num">01 / DOCUMENT DE RÉFÉRENCE</span><h3>Syllabus</h3><p>Présentation institutionnelle, compétences, programme détaillé et modalités d'évaluation. Mise en page imprimable en A4.</p><span class="more">Consulter le syllabus →</span></a><a class="card" href="#poster"><span class="num">02 / SYNTHÈSE VISUELLE</span><h3>Poster</h3><p>Vue d'ensemble du module au format affiche A3, pour présentation ou impression.</p><span class="more">Voir le poster →</span></a><a class="card" href="#planning"><span class="num">03 / ORGANISATION</span><h3>Planning</h3><p>Calendrier pédagogique 2027, séances, travaux pratiques, évaluations et jalons du projet.</p><span class="more">Consulter le planning →</span></a><a class="card" href="#simulateur"><span class="num">04 / OUTIL EXPLORATOIRE</span><h3>Simulateur</h3><p>Tester différentes notes et comparer le calcul pondéré avec ou sans plafonnement conditionnel.</p><span class="more">Ouvrir le simulateur →</span></a></div></div></section><section class="section" style="padding-top:0"><div class="wrap"><div class="note"><strong>À l'étude — simulateur de notes.</strong> Le simulateur et l'hypothèse de plafonnement sont des idées pédagogiques à explorer. Ils ne constituent pas des modalités d'évaluation officielles et ne modifient pas le syllabus.</div></div></section></main><footer class="foot"><div class="wrap"><span>Operating Systems: Linux · ECE · ING3 · S6</span><span>Ressources pédagogiques du module · 2026–2027</span></div></footer></div><section aria-label="Document pédagogique" hidden="" id="document-view"><div class="document-toolbar"><div class="wrap document-toolbar-inner"><span id="document-title">Document</span><a href="#syllabus" id="document-original" rel="noopener" target="_blank">Ouvrir le document seul ↗</a></div></div><iframe id="document-frame" loading="eager" title="Contenu de la rubrique"></iframe></section><script>
+(()=>{
+  const pages={accueil:null,syllabus:'syllabus.html',poster:'poster.html',simulateur:'simulateur.html?integre=1',planning:'planning.html'};
+  const titles={syllabus:'Syllabus · Document A4',poster:'Poster · Affiche A3',simulateur:'Simulateur · Outil exploratoire',planning:'Planning · Diagramme A3'};
+  const home=document.getElementById('home-view'),view=document.getElementById('document-view'),frame=document.getElementById('document-frame');
+  function render(){
+    const requested=decodeURIComponent(location.hash.slice(1)).toLowerCase();
+    const key=Object.hasOwn(pages,requested)?requested:'accueil';
+    const file=pages[key];
+    home.hidden=!!file;view.hidden=!file;
+    document.querySelectorAll('.nav a').forEach(a=>{
+      const selected=a.getAttribute('href')==='#'+key;
+      if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');
+    });
+    if(file){
+      if(frame.getAttribute('src')!==file)frame.setAttribute('src',file);
+      document.getElementById('document-title').textContent=titles[key];
+      document.getElementById('document-original').href=key==='simulateur'?'simulateur.html':file;
+    }
+    document.title=(key==='accueil'?'Accueil':key[0].toUpperCase()+key.slice(1))+' · Operating Systems: Linux · ECE';
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  addEventListener('hashchange',render);
+  render();
+})();
+</script></body></html>
