@@ -1,0 +1,8 @@
+{
+  "name": "ece-os-linux-s6",
+  "compatibility_date": "2026-11-27",
+  "assets": {
+    "directory": "./public",
+    "html_handling": "auto-trailing-slash"
+  }
+}

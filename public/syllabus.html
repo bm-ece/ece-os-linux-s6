@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="icon" type="image/png" href="assets/favicon-linux-ece.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syllabus institutionnel — Operating Systems: Linux — ECE · École d'ingénieurs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --teal:       #00787C;
+    --teal-dk:    #005457;
+    --teal-md:    #009DA3;
+    --teal-lt:    #E0F4F5;
+    --teal-xlt:   #F0FAFA;
+    --gold:       #D4900A;
+    --gold-lt:    #FEF3DC;
+    --gold-bd:    rgba(212,144,10,0.30);
+    --gray-dk:    #1A2629;
+    --gray:       #3D5054;
+    --gray-md:    #6B8589;
+    --gray-lt:    #F4F7F8;
+    --border:     #C8DCDD;
+    --white:      #FFFFFF;
+    --sans:       'Outfit', sans-serif;
+    --serif:      'Source Serif 4', Georgia, serif;
+    --mono:       'JetBrains Mono', monospace;
+    --radius:     10px;
+    --shadow-sm:  0 1px 4px rgba(0,84,87,0.08);
+    --shadow-md:  0 4px 16px rgba(0,84,87,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--gray-dk);
+    background: #FAFCFC;
+    line-height: 1.7;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ════════════════════════════════════ HEADER */
+  .page-header {
+    background: var(--teal);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Decorative circles */
+  .page-header::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 380px; height: 380px; border-radius: 50%;
+    background: rgba(255,255,255,0.055);
+  }
+  .page-header::after {
+    content: '';
+    position: absolute; bottom: -60px; right: 120px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.035);
+  }
+  /* Extra decorative arc top-left */
+  .header-arc {
+    position: absolute; top: 0; left: 0;
+    width: 160px; height: 160px; border-radius: 0 0 100% 0;
+    background: rgba(0,0,0,0.06);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    max-width: 1060px; margin: 0 auto;
+    padding: 38px 52px 42px;
+    display: grid;
+    grid-template-columns: 116px 1fr;
+    gap: 38px;
+    align-items: center;
+    position: relative; z-index: 1;
+  }
+  .logo-wrap {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 10px;
+    width: 116px; height: 116px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  }
+  .logo-wrap img { width: 100%; height: auto; border-radius: 6px; }
+
+  .header-meta .eyebrow {
+    font-size: 0.67rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.55); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .header-meta .eyebrow::before {
+    content: ''; display: inline-block;
+    width: 24px; height: 2px;
+    background: rgba(255,255,255,0.35);
+    flex-shrink: 0;
+  }
+  .header-meta h1 {
+    font-family: var(--serif); font-size: 2.25rem;
+    font-weight: 700; line-height: 1.12;
+    letter-spacing: -0.015em; margin-bottom: 5px;
+  }
+  .header-meta .subtitle {
+    font-family: var(--serif); font-style: italic;
+    font-size: 0.97rem; font-weight: 300;
+    color: rgba(255,255,255,0.72); margin-bottom: 20px;
+  }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    background: rgba(255,255,255,0.11);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: var(--white);
+    padding: 4px 14px; border-radius: 100px;
+    font-size: 0.73rem; font-weight: 500; letter-spacing: 0.02em;
+  }
+  .pill.gold {
+    background: var(--gold); border-color: var(--gold);
+    font-weight: 700;
+  }
+
+  .header-bar {
+    background: var(--teal-dk);
+    padding: 9px 52px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.73rem; color: rgba(255,255,255,0.58);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ════════════════════════════════════ LAYOUT */
+  .page-body {
+    max-width: 1060px; margin: 0 auto;
+    padding: 0 52px 80px;
+  }
+
+  /* ════════════════════════════════════ TOC */
+  .toc {
+    margin: 48px 0 60px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--teal);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 28px 34px;
+    box-shadow: var(--shadow-sm);
+  }
+  .toc-title {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toc-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .toc-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3px 52px;
+  }
+  .toc a {
+    color: var(--gray); text-decoration: none;
+    font-size: 0.845rem;
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.18s, border-color 0.18s;
+  }
+  .toc a:hover { color: var(--teal); border-bottom-color: var(--teal-lt); }
+  .toc-n {
+    font-size: 0.68rem; font-weight: 700;
+    color: var(--gold); font-family: var(--mono);
+    min-width: 22px; flex-shrink: 0;
+  }
+
+  /* ════════════════════════════════════ SECTION DIVIDERS */
+  .section { margin-bottom: 60px; }
+  .section-title {
+    font-family: var(--serif); font-size: 1.48rem; font-weight: 700;
+    color: var(--teal-dk);
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 13px; margin-bottom: 26px;
+    border-bottom: 1.5px solid var(--teal-lt);
+    position: relative;
+  }
+  .section-title::after {
+    content: ''; position: absolute; bottom: -1.5px; left: 0;
+    width: 56px; height: 2.5px; background: var(--teal);
+    border-radius: 2px;
+  }
+  .snum {
+    background: var(--teal); color: var(--white);
+    font-size: 0.7rem; font-family: var(--mono); font-weight: 600;
+    padding: 3px 9px; border-radius: 5px; letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  /* Visual divider between major sections */
+  .sec-divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 64px 0 0;
+    color: var(--gray-md); font-size: 0.68rem;
+    letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600;
+  }
+  .sec-divider::before, .sec-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ════════════════════════════════════ INFO CARDS */
+  .info-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px; margin-bottom: 28px;
+  }
+  .ic {
+    border-radius: var(--radius); padding: 22px 18px;
+    text-align: center; border: 1px solid var(--border);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .ic:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .ic.dk { background: var(--teal); border-color: var(--teal); color: var(--white); }
+  .ic.lt { background: var(--white); color: var(--teal-dk); }
+  .ic .v {
+    font-size: 2.15rem; font-weight: 700; font-family: var(--mono);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .ic.lt .v { color: var(--teal); }
+  .ic .l {
+    font-size: 0.69rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.78;
+  }
+
+  /* ════════════════════════════════════ OBJECTIVES */
+  .obj-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .obj-item {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 13px 16px;
+    font-size: 0.86rem;
+    display: flex; gap: 11px; align-items: flex-start;
+    line-height: 1.5; box-shadow: var(--shadow-sm);
+    transition: border-color 0.15s;
+  }
+  .obj-item:hover { border-color: var(--teal-md); }
+  .obj-arrow { color: var(--teal); font-weight: 700; flex-shrink: 0; font-size: 1.05rem; margin-top: 0px; }
+
+  /* ════════════════════════════════════ VISION */
+  .vision-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 28px 32px;
+    box-shadow: var(--shadow-sm);
+  }
+  .vision-box p {
+    font-size: 0.9rem; color: var(--gray); line-height: 1.78;
+    margin-bottom: 13px;
+  }
+  .vision-box p:last-of-type { margin-bottom: 0; }
+  .vision-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-top: 22px;
+  }
+  .vision-item {
+    background: var(--teal-xlt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px;
+    position: relative; overflow: hidden;
+  }
+  .vision-item::before {
+    content: attr(data-icon);
+    position: absolute; top: 10px; right: 12px;
+    font-size: 1.4rem; opacity: 0.25;
+  }
+  .vision-item strong {
+    display: block; color: var(--teal-dk);
+    font-size: 0.8rem; margin-bottom: 7px;
+    text-transform: uppercase; letter-spacing: 0.07em;
+  }
+  .vision-item span {
+    font-size: 0.8rem; color: var(--gray); line-height: 1.55; display: block;
+  }
+
+  /* ════════════════════════════════════ PART CARDS */
+  .part-card {
+    border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; margin-bottom: 22px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.18s;
+  }
+  .part-card:hover { box-shadow: var(--shadow-md); }
+
+  .part-header {
+    background: var(--teal); color: var(--white);
+    padding: 16px 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .part-badge {
+    background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.28);
+    color: var(--white); font-family: var(--mono);
+    font-weight: 700; font-size: 0.77rem;
+    padding: 4px 10px; border-radius: 6px;
+    flex-shrink: 0; letter-spacing: 0.06em;
+  }
+  .part-info { flex: 1; }
+  .part-info h3 {
+    font-family: var(--serif); font-size: 1.08rem;
+    font-weight: 600; margin-bottom: 2px;
+  }
+  .part-info .dur { font-size: 0.7rem; opacity: 0.62; letter-spacing: 0.05em; }
+  .part-counter {
+    font-size: 0.65rem; font-family: var(--mono); font-weight: 500;
+    color: rgba(255,255,255,0.45); letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+
+  .part-body { padding: 22px 26px; background: var(--white); }
+  .part-body > p {
+    font-size: 0.875rem; color: var(--gray);
+    margin-bottom: 18px; line-height: 1.68;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 16px; }
+  .mini-label {
+    font-size: 0.66rem; font-weight: 700;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 9px;
+  }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    background: var(--teal-lt); color: var(--teal-dk);
+    border-radius: 4px; padding: 2px 8px;
+    font-size: 0.7rem; font-weight: 500; font-family: var(--mono);
+    border: 1px solid var(--border);
+  }
+  .obj-small {
+    font-size: 0.82rem; color: var(--gray);
+    padding: 3px 0 3px 14px; position: relative; line-height: 1.5;
+  }
+  .obj-small::before {
+    content: '›'; position: absolute; left: 0;
+    color: var(--teal-md); font-weight: 700;
+  }
+
+  /* Engineer callout */
+  .eng-box {
+    background: var(--gold-lt);
+    border: 1px solid var(--gold-bd);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 15px; margin: 14px 0 18px;
+    font-size: 0.81rem; color: var(--gray-dk); line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .eng-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .eng-content .eng-label {
+    display: block; font-size: 0.63rem; font-weight: 700;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 3px;
+  }
+
+  /* Séances */
+  .seance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .sb {
+    background: var(--gray-lt); border-radius: 8px;
+    padding: 16px; border-top: 3px solid var(--teal-md);
+  }
+  .sb.s2 { border-top-color: var(--gold); }
+  .s-lbl {
+    font-size: 0.64rem; font-weight: 700; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--teal-md); margin-bottom: 5px;
+  }
+  .sb.s2 .s-lbl { color: var(--gold); }
+  .sb h4 {
+    font-size: 0.875rem; font-weight: 600; color: var(--gray-dk);
+    margin-bottom: 10px; line-height: 1.35;
+  }
+  .sb ul { list-style: none; }
+  .sb ul li {
+    font-size: 0.78rem; color: var(--gray);
+    padding: 2px 0 2px 13px; position: relative; line-height: 1.5;
+  }
+  .sb ul li::before { content: '–'; position: absolute; left: 0; color: var(--gray-md); }
+  .tp-box {
+    margin-top: 11px; background: var(--white);
+    border-radius: 6px; padding: 9px 12px;
+    border-left: 3px solid var(--teal);
+    font-size: 0.775rem; color: var(--gray); line-height: 1.5;
+  }
+  .sb.s2 .tp-box { border-left-color: var(--gold); }
+  .tp-lbl {
+    font-size: 0.63rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.11em;
+    color: var(--teal); display: block; margin-bottom: 3px;
+  }
+  .sb.s2 .tp-lbl { color: var(--gold); }
+
+  /* ════════════════════════════════════ EVAL + PROJECT */
+  .eval-header {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px; margin-bottom: 22px;
+  }
+  .eval-card {
+    border-radius: var(--radius); padding: 20px;
+    text-align: center; border: 1px solid var(--border);
+    background: var(--white); box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden;
+  }
+  .eval-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; background: var(--teal);
+  }
+  .eval-card.accent::before { background: var(--gold); }
+  .eval-pct {
+    font-size: 2.4rem; font-weight: 700; font-family: var(--mono);
+    color: var(--teal); line-height: 1; margin-bottom: 6px;
+  }
+  .eval-card.accent .eval-pct { color: var(--gold); }
+  .eval-name {
+    font-size: 0.8rem; font-weight: 600; color: var(--gray-dk);
+    margin-bottom: 8px;
+  }
+  .eval-desc { font-size: 0.75rem; color: var(--gray-md); line-height: 1.5; }
+
+  /* ════════════════════════════════════ TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 0.845rem; margin-top: 14px; border-radius: 8px; overflow: hidden; }
+  thead th {
+    background: var(--teal-dk); color: var(--white);
+    text-align: left; padding: 11px 15px;
+    font-weight: 600; font-size: 0.76rem; letter-spacing: 0.05em;
+  }
+  tbody tr:nth-child(even) { background: var(--teal-xlt); }
+  tbody tr:hover { background: var(--teal-lt); }
+  tbody td {
+    padding: 9px 15px; color: var(--gray);
+    border-bottom: 1px solid var(--border);
+    vertical-align: top; line-height: 1.5;
+  }
+  tbody td:first-child { font-weight: 600; color: var(--gray-dk); }
+  .pct { font-family: var(--mono); font-weight: 700; color: var(--teal); }
+
+  /* ════════════════════════════════════ PROJECT */
+  .project-card {
+    border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; box-shadow: var(--shadow-sm);
+  }
+  .project-head {
+    background: linear-gradient(135deg, var(--teal-dk) 0%, var(--teal) 100%);
+    color: var(--white); padding: 22px 28px;
+  }
+  .project-head h3 {
+    font-family: var(--serif); font-size: 1.12rem; margin-bottom: 6px;
+  }
+  .project-head p { font-size: 0.84rem; opacity: 0.84; line-height: 1.65; }
+  .project-body { padding: 24px 28px; background: var(--white); }
+  .project-note {
+    background: var(--teal-xlt); border: 1px solid var(--border);
+    border-radius: 8px; padding: 18px 22px; margin-bottom: 22px;
+    font-size: 0.875rem; color: var(--gray); line-height: 1.72;
+  }
+  .project-note p { margin-bottom: 10px; }
+  .project-note p:last-child { margin-bottom: 0; }
+
+  .criteria-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px; margin-top: 18px;
+  }
+  .crit-item {
+    background: var(--teal); border-radius: 9px;
+    padding: 16px 12px; text-align: center; color: var(--white);
+  }
+  .crit-item .cpct {
+    font-size: 1.7rem; font-weight: 700; font-family: var(--mono);
+    display: block; line-height: 1; margin-bottom: 6px;
+  }
+  .crit-item .clbl {
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.05em; opacity: 0.85; line-height: 1.35;
+    display: block;
+  }
+
+  /* ════════════════════════════════════ COMPÉTENCES */
+  .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .comp-card {
+    border-radius: var(--radius); padding: 20px;
+    border: 1px solid var(--border);
+    background: var(--white); box-shadow: var(--shadow-sm);
+  }
+  .comp-card h4 {
+    font-size: 0.74rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 14px; color: var(--teal-dk);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cc { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .comp-card ul { list-style: none; }
+  .comp-card ul li {
+    font-size: 0.805rem; color: var(--gray);
+    padding: 5px 0; border-bottom: 1px solid var(--border); line-height: 1.45;
+  }
+  .comp-card ul li:last-child { border-bottom: none; }
+
+  /* ════════════════════════════════════ POSITIONING */
+  .pos-box {
+    background: linear-gradient(135deg, var(--teal-dk) 0%, var(--teal) 100%);
+    color: var(--white); border-radius: 12px;
+    padding: 32px 36px; margin-bottom: 22px;
+    position: relative; overflow: hidden; box-shadow: var(--shadow-md);
+  }
+  .pos-box::before {
+    content: ''; position: absolute; top: -50px; right: -50px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: rgba(255,255,255,0.055);
+  }
+  .pos-box::after {
+    content: ''; position: absolute; bottom: -30px; left: 60px;
+    width: 120px; height: 120px; border-radius: 50%;
+    background: rgba(255,255,255,0.035);
+  }
+  .pos-box p {
+    font-size: 0.9rem; margin-bottom: 12px; opacity: 0.9;
+    position: relative; line-height: 1.7;
+  }
+  .pos-box p:last-of-type { margin-bottom: 24px; }
+  .majors-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; position: relative;
+  }
+  .major-item {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 9px; padding: 12px 14px;
+    font-size: 0.8rem; font-weight: 500; text-align: center;
+    transition: background 0.18s;
+  }
+  .major-item:hover { background: rgba(255,255,255,0.18); }
+  .major-icon { font-size: 1.15rem; display: block; margin-bottom: 5px; }
+
+  /* ════════════════════════════════════ CONCLUSION */
+  .concl {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px 30px;
+    box-shadow: var(--shadow-sm);
+  }
+  .concl h3 {
+    font-family: var(--serif); font-size: 1.08rem;
+    color: var(--teal-dk); margin-bottom: 11px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .concl h3::before {
+    content: ''; display: inline-block;
+    width: 18px; height: 3px; background: var(--teal); border-radius: 2px;
+  }
+  .concl p { font-size: 0.875rem; color: var(--gray); line-height: 1.75; }
+
+  /* ════════════════════════════════════ FOOTER */
+  .page-footer {
+    background: var(--teal-dk);
+    color: rgba(255,255,255,0.5);
+    padding: 20px 52px;
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    align-items: center; gap: 24px;
+    font-size: 0.72rem; margin-top: 72px;
+    border-top: 3px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand { font-weight: 700; color: rgba(255,255,255,0.88); font-size: 0.78rem; }
+  .footer-center { text-align: center; }
+  .footer-right { text-align: right; }
+
+  .tag-ref {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: var(--teal);
+    background: rgba(15, 107, 111, 0.08);
+    padding: 2px 6px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .sys-box {
+    background: #eef6f6;
+    border-left: 4px solid var(--teal);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 12px 0;
+  }
+
+  .sys-label {
+    display: block;
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .sys-box p {
+    font-size: 9pt;
+    line-height: 1.4;
+    margin: 4px 0;
+    color: var(--ink);
+  }
+
+  .sys-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stack-vertical {
+    flex: 0 0 auto;
+    text-align: center;
+    font-weight: 800;
+    color: var(--teal);
+    font-size: 8.5pt;
+    line-height: 1.2;
+  }
+
+  .stack-vertical span {
+    display: block;
+  }
+
+  .sys-text {
+    flex: 1;
+  }
+
+
+  @media (max-width: 740px) {
+    .header-inner { grid-template-columns: 1fr; gap: 20px; padding: 28px 24px; }
+    .page-body { padding: 0 24px 48px; }
+    .info-grid, .two-col, .seance-grid, .toc-grid, .comp-grid,
+    .obj-grid, .vision-grid, .eval-header, .criteria-grid { grid-template-columns: 1fr; }
+    .majors-grid { grid-template-columns: 1fr 1fr; }
+    .page-footer { grid-template-columns: 1fr; text-align: center; padding: 20px 24px; }
+    .footer-right { text-align: center; }
+    .header-bar { flex-direction: column; gap: 4px; text-align: center; padding: 10px 24px; }
+  }
+
+  .note-finale {
+    background: #F0FAFA;
+    border-left: 4px solid #007B7F;
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin: 16px 0;
+  }
+
+  .note-titre {
+    font-weight: 700;
+    color: #005457;
+    margin-bottom: 12px;
+  }
+
+  .note-equation {
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    line-height: 1.9;
+    color: #0D2426;
+  }
+
+  .note-equation sub {
+    font-size: 70%;
+  }
+
+/* =========================================
+   IMPRESSION A4 — VERSION UNIFIÉE
+   ========================================= */
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
+/* Bouton visible uniquement à l'écran */
+.print-btn {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 9999;
+  background: #D4900A;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+.print-btn:hover { background: #B87900; }
+
+@media print {
+  html {
+    font-size: 15px !important;
+    scroll-behavior: auto !important;
+  }
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+    color: #0D2426 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Ne pas conserver la largeur et les marges du mode écran */
+  .page-body {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .header-inner {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 11mm 6mm !important;
+    grid-template-columns: 80px minmax(0,1fr) !important;
+    gap: 20px !important;
+  }
+  .logo-wrap { width: 80px !important; height: 80px !important; }
+  .header-meta h1 { font-size: 1.85rem !important; }
+  .header-meta .subtitle { margin-bottom: 10px !important; }
+  .header-bar { padding: 7px 6mm !important; }
+  .page-header { overflow: visible !important; }
+
+  /* Sections continues, sans page forcée */
+  .toc {
+    margin: 16px 0 20px !important;
+    padding: 14px 18px !important;
+    break-before: auto !important;
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+  .toc-grid { gap: 2px 20px !important; }
+  .section {
+    margin-bottom: 24px !important;
+    break-before: auto !important;
+    break-after: auto !important;
+    page-break-before: auto !important;
+  }
+  .section-title {
+    margin-bottom: 12px !important;
+    padding-bottom: 8px !important;
+    break-after: avoid !important;
+  }
+  .sec-divider {
+    margin: 20px 0 12px !important;
+    break-before: auto !important;
+    break-after: auto !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+  h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+  p, li { orphans: 2; widows: 2; }
+
+  /* Les cartes longues doivent pouvoir se poursuivre sur la page suivante */
+  .part-card, .project-card, .vision-box, .pos-box, .concl {
+    overflow: visible !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+  .part-card { margin-bottom: 14px !important; }
+  .part-header, .project-head {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  .part-body { padding: 15px 18px !important; }
+  .project-body { padding: 16px 18px !important; }
+  .part-body > p { margin-bottom: 10px !important; }
+  .two-col { gap: 14px !important; margin-bottom: 10px !important; }
+  .seance-grid { gap: 10px !important; margin-top: 10px !important; }
+  .eng-box { margin: 10px 0 12px !important; }
+
+  /* Les petites unités restent ensemble */
+  .ic, .sb, .obj-item, .vision-item, .eval-card,
+  .comp-card, .crit-item, .major-item, .tp-box {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .info-grid { gap: 10px !important; margin-bottom: 16px !important; }
+  .ic { padding: 13px 12px !important; }
+  .vision-box { padding: 18px 20px !important; }
+  .vision-grid { gap: 9px !important; margin-top: 12px !important; }
+  .vision-item { padding: 12px !important; }
+  .obj-grid { gap: 8px !important; }
+  .obj-item { padding: 9px 11px !important; }
+
+  /* Tableaux et largeur de page */
+  main, section, article { max-width: 100% !important; }
+  .scroll, .table-wrapper { overflow: visible !important; }
+  table { width: 100% !important; border-collapse: collapse; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  th, td { overflow-wrap: anywhere; }
+  .page-footer {
+    position: static !important;
+    margin: 16px 0 0 !important;
+    padding: 12px 6mm !important;
+    break-inside: avoid;
+  }
+
+  /* Contrôles et décorations propres à l'écran */
+  button, input[type="range"], .no-print, .print-btn,
+  #session-tooltip { display: none !important; }
+  .page-header::before, .page-header::after,
+  .header-arc, .pos-box::before, .pos-box::after { display: none !important; }
+  .ic:hover, .part-card:hover, .obj-item:hover, .major-item:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  a { color: inherit; text-decoration: none; }
+}
+
+
+/* Corrections ciblées : tableau des coefficients, formule et grilles projet */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+.coefficients-table { table-layout: fixed; font-size: 0.80rem; }
+.coefficients-table th, .coefficients-table td { font-size: inherit; font-weight: 400; line-height: 1.45; vertical-align: middle; overflow-wrap: break-word; }
+.coefficients-table th { font-weight: 600; }
+.coefficients-table tbody td:first-child { font-weight: 500; }
+.coefficients-table th:nth-child(1) { width: 25%; }
+.coefficients-table th:nth-child(2) { width: 31%; }
+.coefficients-table th:nth-child(3) { width: 12%; }
+.coefficients-table th:nth-child(4) { width: 18%; }
+.coefficients-table th:nth-child(5) { width: 14%; }
+.coefficients-table td:nth-child(3), .coefficients-table td:nth-child(4), .coefficients-table td:nth-child(5) { font-variant-numeric: tabular-nums; }
+.note-equation { font-size: 15px; line-height: 1.65; overflow-wrap: anywhere; }
+.project-rubric-title { margin-top: 18px; color: var(--teal-dk); font-weight: 700; font-size: 0.9rem; }
+.project-rubric-title span { display: block; color: var(--gray-md); font-size: 0.76rem; font-weight: 500; line-height: 1.5; }
+.project-rubric-title + .criteria-grid { margin-top: 9px; }
+.project-rubric-note { font-size: 0.77rem; color: var(--gray); line-height: 1.6; margin-top: 12px; }
+@media (max-width: 740px) {
+  .coefficients-table { font-size: 0.72rem; }
+  .coefficients-table th, .coefficients-table td { padding: 7px 5px; }
+  .coefficients-table th { letter-spacing: 0; }
+  .note-equation { font-size: 13px; line-height: 1.55; text-align: left; }
+  .note-finale { padding: 12px; }
+  .criteria-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media print {
+  .coefficients-table { font-size: 0.73rem; }
+  .note-equation { font-size: 13px; line-height: 1.55; }
+  .criteria-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+</style>
+
+<!-- Harmonisation des boutons d’impression : style commun, légèrement réduit. -->
+<style id="ece-print-button-unified">
+@media screen {
+  .print-btn {
+    position: fixed; top: 18px; right: 24px; z-index: 9999;
+    box-sizing: border-box; background: #D4900A; color: #fff;
+    border: 0; border-radius: 7px; padding: 9px 15px;
+    font-family: Arial, sans-serif; font-size: 12px; font-weight: 600;
+    line-height: 1.35; letter-spacing: 0; cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,.16);
+  }
+  .print-btn:hover { background: #B87900; }
+  .print-btn:focus-visible { outline: 2px solid #005457; outline-offset: 3px; }
+}
+@media print { .print-btn { display: none !important; } }
+</style>
+
+<style id="ece-coefficients-blocs-harmonises">
+.coefficients-blocs tbody td {font-weight:400!important;font-size:inherit!important;}
+.coefficients-blocs tbody td.bloc-name {font-weight:600!important;}
+.coefficients-blocs tbody tr.bloc-moyenne {background:#dcefee!important;}
+.coefficients-blocs tbody tr.bloc-moyenne td {font-weight:700!important;color:#005457;}
+.calcul-deux-methodes .calcul-method-title {font-size:.86rem;font-weight:700;color:#005457;margin:13px 0 6px;}
+.calcul-deux-methodes .calcul-formule {font-size:14px;line-height:1.7;text-align:left;overflow-wrap:anywhere;}
+.calcul-deux-methodes .calcul-intermediaire {padding-left:10px;border-left:2px solid #a5cdcb;}
+.calcul-deux-methodes .calcul-conclusion {font-weight:700;margin-top:10px;}
+.calcul-deux-methodes .calcul-note {font-size:.76rem;color:#566d6e;margin:10px 0 0;line-height:1.5;}
+@media(max-width:600px){.calcul-deux-methodes .calcul-formule{font-size:12px;line-height:1.6;}.coefficients-blocs{font-size:.72rem;}}
+@media print {.calcul-deux-methodes .calcul-formule{font-size:12px;}.coefficients-blocs tbody tr.bloc-moyenne{background:#e5f2f1!important;}}
+</style>
+</head>
+<body>
+
+<button
+  type="button"
+  class="print-btn no-print"
+  onclick="window.print()">
+  🖨️ Imprimer / PDF A4
+</button>
+
+<!-- ══════════════════════════════════ HEADER -->
+<header class="page-header">
+  <div class="header-arc"></div>
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <img src="data:image/webp;base64,UklGRvBDAABXRUJQVlA4WAoAAAAgAAAApQQApQQASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggAkIAAFALAp0BKqYEpgQ+bTabSSQjNSEhkwhSoA2JZ278Se4W0AxMH/CvuWv+0/uXeDyD5S/N/2f92P837+lpfvf9e/xP/B/uvzof0u7LsXzA+bv/V/h/8370P87/1v9Z7qv1h/6/1c+Rj9Wf1v/xftj/sb74v3J9Vv7YfuP7o//K/bv4J/0v8jPc7/7XXd+j55tf/Z9qn92fTX1RH6h/lf9Z6Rvnf7x/iP8H+2Xo/5rfU3tL8kODv4rwb/nf3j/V/4v3R/0n/W8J/Wh6gv5P/Qf8h+Z/9x4igAX6b/YP+1/jPYV/D86P4P/Y+wF5j+Cf6l7B39U/0PrAf6P/29Kv1t+2Hwb/sN/1Qd+1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCB9Kv5r/VYwUVrLwz2Ord6c+XeyNxl13pqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhA+AWvdunRzRrKSRn6GNvbxMH4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fEV++8QCxN3rfn4V3l/r3tslRzx9+yQ+jPZTHYdW9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y1O4R0FTb9XRPAsibeFREDGao2ylPTiRsnYvLSr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rGqU2BjQxiSnWTgFkKOcDLHKtCTMcBGsfXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH98mE5f09c1R44GP58CqRqXKn14p/1EoBD27U0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4NEcv5PZAn7r2DF4TFxHDZhvseP+7qhG18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fUiUksbWxOir1+7hUKERzjHDwyQqgfCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPrz8Sgyqx4fpIBcYA+5dVi3lwyZ6Y4fCEVD6+P76sebU0+EIqH18f31Y82pp8IIEWzKjK2EP3ngCI2m1VvA8Ks4au6dSH8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFPicexSqff6C6AIDcMYD/0imJwt8BCfCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPq6uX+eXv/Xn9IjLuBtzmGmFa+5armrcYg+sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tQEVoOtjShSFMlmCvZaX/TAyYU+Q6YtvsjJZmn0JtLqafCEVD6+P76sebU0+EIqH18f31Y82ppNMKLdzXhuEMef6v/wBUerEeU4JeHP/kdZVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafBnAOH/HIY7ILXAyKJXnZRqQmltfH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82oEXDdKQZakokucFaCXhIfeEL9sn8yN0ktLqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPwfanXn0JtLqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1ZJbZ9DXGphxsieSmHCFJvoqHm3ahuar+tLqafCEVD6+P76sebU0+EIqH16CWHcmduXXuc8N3Lr3MJHj2QlzXukgydZPoorv+8p1VkTfHaQHqGWTKCwL3xYYWk6ENQ94944b7HuX0mq4DgLNpdTT4QiofXx/fVjzamnwhFQ+sAkgQv56Rw3cuvc54DOzR/djZZAwrFwkXbeCip0+WrB7dgyGAKokyrP9J4lI3FRKLuASN3b+G7l17nPCSxQsRnTaXU0+EIqH18f31Y82pp8IRUPrAI/X2HLcJm1xpv6R7ZamKYLcLaAk/OmDBiYVymQ17DGTq1CeRGkzD6uuokitDlCSVbVY9vfO0ShUPr4/vqx5tTT4QiofXx/fVjzN0wX2RCXCKe44kuVxCVSRzqiRT2xF1z1N/aLXKeZzkX0cPhCKh9fH99WPNqafCEVD6+P76seZumA2QDvnPDdy6udhQCrtrTI7yw0ZVjzZhl2Tyh64DuXXuc8KSKEh3Nh8IRUPr4/vqx5tTT4QiofXx/fUoL3gpmr93Lr3NWNmkzioqWf0JTTBwhFQ+F5zYLVOvc54buB1Mz/YtehNpdTT4QiofXx/fVjzamnwhFPkzAy+vmq9f1mIk32V9FyBhT4EOAvvNqnwQmEYDlzOcjdP/FFmPNqafCEVD6+P76sebU0+EIqH16GANgWPU0nCWF/5ZkOcI0PgUCxR8AJj5ADlZWqYVhQhq8WGI5mw+EIqH18f31Y82pp8IRUPr4/vqx5tQZl9fL/SPM9I4buXV0srnuqRzwW/rtfmdq3drf/tuIJydFsRhZAo56Gf/rsK0Pgwi9s0ZIuxr0rD0uvc54buXXuYgU4Vqh9Y82pp8IRUPr4/vqx5tTT4QigItgFtmG3tGb2kGZ1WnXPWA6v312HihAK5X/eloRwawrpmw+EIRZnpjh8IRUPr4/vqx5tTT4QiofXxFjaZpRpHDdy698hznhAmcBkwKUJ2LTgQc6NbHXxK+k705T10uBJIqw1nj0jhu5de5zw3bTa+aR/fVjzamnwhFQ+vj++rHm1NPhA+jho4G9hl8pGkC2l4lGHjUNtwYPNqafCEVD6+P76sebU0+EIqH18f31XjrKA0noC4jiiJEYF5/R9Sd9CEl2N/0SS4JEn3TQXokXH7sG2EVX0L2TypxPS0NBRneQjNNVtxKpUoCjFSCgaR+TfBlOabH+WjASnNCPZMTEfVRLvQdMCMSU/XZIr09IyRNRLW8aPTjUegIZhQ349ISLHRGWMCoRBPpymo2XKEY5WSWmYivmgbeuQLTU1Nokqbum+UPBHSK9Rexk4Lj8PTnfIqcFDBdTT4QiofXx/fVjzamnwhFQ+vO9bKywFpW8oNLO2C6agfRredF8BvDICzjLcEfbOF4xJqo4FruQheqKeF7OQgOX3+FlkFVJfsNz4W198+QI5TdzS4+Bc8pJQsspLuCHMCLdC/a7UByztyp8gsnXOd+h/oNUq3WUxCipoZ6HI6HDdxfkiDTODHUu9eBZluR9Q6i5nkKIoRUPr4/vqx5tTT4QiofXx/fVjVGL/Nxrxek25+h0bB+R36QEF9owJX/hPa3WJUu39RgmRZrw3M2lF1PEpI2Wuo4I6q8PUpsQjJZ/RK00NOnqECOJoKSGfFIN2kpMZJiM66n6ol+nUfr0pHQRJwuJfrLLBQJMmropJ9/7Y5wwvCs0RwF9RvtV2+rHm1NPhCKh9fH99WPNqafCEHjCoXg3X8Ng09VMlQgwrCzVnaP3+OoBkhwkpl3bx8n2MeqbrukxKdxIM9hO+wT9dOOil6vfJUxZ01AHlQb/m8IQ8ymC/qsTloTXmjoYvRH3dsTcRf/ilD1QcZrwYByCwNaQt+tF+M4V/tRXgHhwi+M9W/EOXrBcY/AP8uQq9A8uxh7FFwJQDWCM6wKhphckWYvmwhEY5VNqbLB25CD6x5tTT4QiofXx/fVjzamnwhE+wkVP2ljXkPRhw7Iw0xtGkqujBx3XD34AIgU/yC0wIrCz4zx96VY9jEqufWL0N3CpY56kaZ80+ZifcaL7FX8W9qhpXkMORxtO/BnBzHSj5ID9e2mBP+Ah3XFwYL+i9AgPPU+ZzuBWEsyI6DgtIKrU7nOnIna13/YtoyQXHZuyXy7HPIpSSrGon/A8bwL1EmzPZL+HO5YgUgYaIhmNBIhRAsj4QiofXx/fVjzamnwhFQ+vj++TD5bATOHB5/8FNmxV72n2FqWockY4+H4ArkPZvdIuTAWILzjsdFWGBTTA1SLdqQuFuNWWKOiScYXuThRkaQOcSDzaNOTlZ2CfM7jVUcnD7+VOQSRv8SQub65Ns1PfSnLK6B3KTqdHz5Y4tOpeaHxE3YqKh9fH99WPNqafCEVD6+P76sebU1e9XfYKE064Wubvj3FGQA/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEVD6+P76sebU0+EIqH18f31Y82pp8IRUPr4/vqx5tTT4QiofXx/fVjzamnwhFQ+vj++rHm1NPhCKh9fH99WPNqafCEU9gAA/v8jVfsNBHQBv/50F+HfQpzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEUkzKZS0Lx818YQbbPsYIbT+lXG0Zho+2hmSjpOpRbY3ZhwS2mkMfqEsj4c8BsJcTcfxBmi15pUBopVPFk8ALz3Kag96msQEpabwrYojYaSM/5bFyPxG9yoEAq/7Fue1omIg7btL+dX4dGCcZghxgprq9b3GZmkSrR9wt1EImoO4Kauj6maxQSQlklgOU/6w8qU+d4ScXJoFMHkmqfLGLPvfvdaM5zE4u9udVtbDkJHSiI/ftDFpvOo2h7UWBnIo0LvgAAeDgExtcajLag8/A8iAW5l5TGmeb3mR8EUWaUkNf1QE7v07qsvzEk9EJRtq3hj18Y+a66u8alFGhTemnejvSEgX3tGF0/qyAk/F+SDhrae4RfjLeikm8gBQUx6TSZ4hmB1iPBlS4e35cjqjr5pnS2O7sWNJ7I2iQg52NYAADFwTNdZMnMIfvVCVJzJHJbXcK3Z0SaVYe8KDTVC4DdfK8Fi9eAomRXE/kxmmm+V4Giwl+KZ4XG9dOhx0iM6ZRhxyzpKtyxugA+rjWfopZ6AYDPuO0CWrTOaARCFKrS6or+/uGd+zr1+4ea3PyADn+ij9YdbFF281AFZmhaqMFZGr0BPx8q/z4XJczpfr/nyuB14xrU3t89JrMHJV+vw+EVn6B618Ns8BojmwK+wYm7iQmEK3C+w/cj0oU+x2fXONIgeXhRVlH/rL2POwMJDi0DwOhkYQxQAACFBGqRYWgITEVukBgU8lc7u3njIcuAcxWaK9Zt4EndgO175isKbt13XgcZ0pakAaVqSZJOSr8g/HgOwlBUxrCrRODIqKQAJbJHsecIWgpzpgB81SNsQ/97X7FppgDY1dbkxRdic4bsvshg7Yq6vO50B23LHRYR/TjEpkUfoxek5DjpXX3v2VfWJE17IWuW8LRxgnisY6U8dSOAV7tT4weFi0kKt32xzYbHffcqnviUqaojje87WPzsCQliXGng2IDBMUG/BXD6RTEVUop6vobbOxUHUiSAAFuPx6pIC0zwX8bdMUJLT0gfyO0lyrMfAZqZ/mm2Mz1OwHZJSlTa50qbbrcYYrYw5wzdOyQiAuJvFVZuZX1QNMEQEU7DZRuDen1DwMaAwoo31d5YPh6wkM+rQsB9lSzKlCJ0bi/lNXkI3DdFPD7tJgIgRVvj8T+6nYmq0pNl6isK8cGK2ZpeEJ4hkmeg7wShap620Uim+fL3YKTu6eXWZPI6L7c3lnVMkpuDrI1nVWJxf97jefxMVFOEAAKU7fkmIF6aXOUCNmZzgDnVRH81UsWjLtXt4ZnqJk9h7zU2uQD4dOxGsW8Gnq/c745RN8BnCOJDxzA0FftlVRjBam7SlKcVDyL/ysJ0DsYoofK+yrRWzwJMBHSlKZdvOkFZO5kbIHwLjEenZSReKvwQkNPRkc8rmzqrYOMvgsTFI3WFMmOIOlUJXw2viafANxPQwGsNjYS1mezTuLsGYfOrSLIjKUYYyB3YZsxDIH+7RMTwm9/YPOAAABHP2EbuUvIX0KghLeyhyzXL4PwIddC0B0ZdT2uXLv15bcI3wkbVUHDLZAMxRObknMsN8vxfBd5ziPGK0lDny57NCqp+N7Aa6LcTMyINsqeQutvcLjBxDMRAionshNlLRaUzHyTTpkKne1f9tozxC6QKlAtd3Yc0HMJM5N2xiveIcYBteuGkeOGLCmbicQ1Mv6j08ulgBxc9KnQwAD7RNo0W2q+hU5QK8H+MucICMj4f+DFh1vzgVVoJIoizOqSTXBgAM/22afktkPYYvB2ORTIvOnA4P+pqF+iR1hxiAN0/ZZhxKigAAJBMv5HNwBcH2E9ypo++JXNmi2ZLOjwSIFd1YrEshDAIMHj5OiHW3eEiXiBmtKuE4JBo7SLhxS1hAOrwD6vc5Ien0rzE3E+n2kUEbiOW4AAbLCx1jAkoFGmdX7G43StvKs2V5ZTFs3brgqsimJDetSC85p94erW9UKX3xaLSSSZLE4EkAZqxG6dD2CLaAADDRD/oLlgUYvrVNXZIhFyrHUohntvPPvLPa+jsrL8axibW1QGnVIDby3ihY7a7WD1hBLDqqqStrn7xSErs2titPIUNjXZNU/e5dpTcKoIg9qnorojunEFo1KOjoAAAR7Ih77vgkqoO40avq8CHLtwLb0LMJvDmtupTPBM3DW+ml7M2pqt85Kv9uEpTj9sav2LIjdoJnjrXIjumNODDEt4tB2Z9aXKe6BYrvUqVGjH8gwQOGOWvxnEZgnaPRXq6wl6CHjJfSBm9xWik8C6McdLS62IgBRfX9EI1yTIR9H4Pz3+vUnCi+L+4BNoYGNxkt7hCMVnbIzLCNd1ir+yTYNnylhVvv2q7Bn4wQAAACh0XZkzCOEpiUejgdUzJ4I5m27eTEPky66kbpBgMf1PCPSFg4ueBjOlx7khR2xD8ls91NoXGSc7aI5BolYKwFBs5gv1Wgbm/cGDjCl372uKPT9lFxpgJAUFUE39ZwjhehuqkcrcaItxXMTtGSFDUznOpvH7vMqFC8ubgH5Q/RBOjgwyfmOc5LjNWDiHQ5a9ntSO6ytdqiuKv8c/M0YeBw7w8nUAdffyUYCVDI9X5sybOGKh6DMtPoaxVEAAAA/yMMU8MLC9b4fXF5+9hg3pxMzau7ADFk7f9/+jL4i5RaO7VIVN1JOXFlxn2M0jo/pzU20S7Bdos/W1ZS0/hIpAS/+Kgzrt1Pti3bY6ONLVodwmt9mQ32bCghhn2MENp5ifs0NQcMI+f2mrrpq8LQLKDC06pk2LDDURPWXnHPooiiaZiUsbNCqhTMokR+o6YaoA6OCCNTuuo7a1tAbL/HSPSjg7VsC4Nnj/FtsFnhBg1YVjHKWPaFYiG9RrbHcMThqw8pYUqOXXRNjBQK+dAKU7aCmZF/4GXVH6sj7M5eTsdjb/32Ddq2ETAF8jDBugAAaah3SYgVaQpBs4zDJ6PSzdTFJ4zwJTiIJa8qujHLgocoqCASswDrWM0mZriJ0+xnK4EBb6/Mif/tD865uCqNrkz3U+uUeL2rYGQl6rqmBlNLPZOTfdxD8c5TruWovRvMcw7HplWD8VJAr2IwR/bIQo0Qiqd1WtUquNLQAC4gMsxeqCT3QvHgKQlx33MsZLvhY+3anywfKgyfpmFB2fuMF0vAlCo/acc7Uni3A8YlzkK4HzeLUdiFhTdFUIyfBjNVmEwO98mwbHDlf4o7oAAAnQNt7vacP8emace68msHSECUYrJ58xxyH+mEKE7eXX/SNQnQr+N+ELuhEBQGxSdb21F4ZbPCXVGOAYxZ3UyRkTmrzikk6pH1IpAVJHi3ypkXjwPkor8z7CP6cYlMij9GL0nIb0Qks119k626xOtvvIV+6r8FtOR5TxW5nsggAAEsQY+oh7MVqXEpU1kd6z/CRVrrk6xI52r38ahXc8OgwA5zRTTAdtuIRxvD65+2mFxrITlLvJc20qmog1eFUfHwxU0+gbLVMn77/QrmqvwYahbdpS8sdxvxUgnNZniTZNm1CqHj7UCWVThHhi9hf2DXvG5ULF/gknI6hHiELJujMa1XrYXvaZ23/ITawYS/qT48eVsX2uu5I47rPAJpZBM77rV1OiAQ0WEU46Mi4fgZzygAAAAAAAAAAAAAAAAAAAABAvfgBw9tGCS/4AcPbRgkv+AHDzeQouGlt9xkDdTOQU1OJ6oEeNmC8PdrgKABKDlY9HvAjfiIaE0P0UpxFW+AF+mNeJ7U2tYAV2l5bo4jDx1sJtGCS/4AcPbRgkv+AHD20YG4AcO49fyFaG3lVQNHUxZ2QwVggL9K33cwU7N5SX4oACVZ/5AFGuGSpYw4r0pDntqF8UfaHlUTRSFp3q7A/XBaRaTlYGwpjC0WFVkl2Bkc3ALr10MM7CoqVvufhiUYLVebVZX1IdI59mWm5MlL43Rx+1T/aoCJgPMl5jg9owayBSDCKWNyi5IXGnV6UtRGmoq3vSf+K0LR35GOXtgMMx2qnBNLSOIX1B5C/8GvanVZaCGoahGWYqrAaoabcYEBSYCDrY5/UMQ6AhCNpulD8IqnBqK5ZlRb+CZH6JpNu2cMCjSS+r0rDE7F4CstdnKu9JgwdxOxLeXIkFBuKnN0XzxuZ6VqCE3/EtcMj4xqYYQI74tH+IGJUhuBk1ee+qU30GcFvpWFgz/Rko2JpD3AAz6lEgErc8EALk/gpWFVsfaSZfP5ogjeJiAV/wn4dJRWHoblR+zIeUxm27jVZ7W1grBzXzJEu/bNMtJHrNNWZQLNjVTw3z9Agu02nsvELgaYsaUkISpIXwYH6BaqiO9llHKfpyc9UWfimF7xWNhcKolQzOfNZBHuX/zEM9OzJevvSr32HpO1uexGY2TG2McWD6W+jIaDiZXAyIUOfwmsOCcbiVoa6P0GVg+jrG2Q41NalI1iyPQmaPTfVsLKGU2py6WhLAOFJe/Mcct4Zu82vUgRh2jfOj2W/rwhYtIzfIJbZRbw402p0C7AJVsTjRPEKfejHAFuEOEGKJz52tzb9B1lboVBKh7sM7+RROp55Xby8zw+3DL6i6RH9nr07+XHiscbjZ3BPk8zHhY+f7BvnnB73jt2n0sZYQ0ne9yMp+0uyACoH+tSzXM5AOM0r+IsqdMc1QEoprWQUN3Tbm1aKZnaYOkN6OLLmnaSwDsx357FsLI50IWgj7C886js/3xLW2aPS4+1yUVoUa+dBwP7IIq4QVOq1m2HuD5zndKHPYV6HXJEflRuDwha8/SJeVh8DKwww0VzLamPuFsOClqKKIzsVhjnRXNxGbncNWFSINZpi1ckAFqoiqeN7eakKT6kLAn3rdDUUn2Ej2/6D687HMpyJDahigMCidzha/BFdC9CJaRuurZJU4tdxbapn8CBryhdF60tZK5XrF2DLmOkcRAgVfMLto6vp1A5YB5f1wD7EB6rnO9K4Zx1ut0QRtMzdFcl3CxByTWokUKOLvJxiTx0hS6Gv4TLd3C47d+mPAIuLdPyjGRtfRmm+QAAA9jHk6sIKk3fr2BKKcbWu3bNLS8+ZuLSE7jUr0dpNwSd1Fj2XTCqVTpfeZjr7/atrJ4OKUtg/1sfLbnkkwJBhP84oRiBNUqldvmIlLldsqFmB0p2fvynLCBp53YlNinaGD++H45R4N9cG8E4umBYYaNzVnCslilPJRkNkGKSOPCnKa4joCyCZ08bY62J7OlrtgcBT5ukdsJTDv8GUzbKfbiEhO2hLJDlQF+8gAALo5qaskoe4yVCYDE96FgCnDrN9NLeuxxCh438vgMy/jxBBAXi+ZdgLl2PCaInX/DIxGze1DQ1TVlcsHFLeqH/jslkJGM8VhFuzkyg1ovn+q45SMxKwt6kxYRRukH3cz24Lh6GayJYxUDy/v/ubLy/NNxGdm0UCumjADdAmKYdBl3NqgUwQkARjn3aowvYiJ5VhbqiOQyKvL1BOz7tAVxqOZySgshdAAjxnDhEP22tDJOhOgx9ZBONxweaMU7T81qChfuw7DgezMTOlp52d96k3KiDYD4S043jz7OZIu9BQgWJw+UMG71f5ppzl1maKndmvgkMW8gWgL30L4w3zzRFsllHb5PNy5zuzZb5vNaCSxtyO40jG+Ru/8mpvZAy635KVfQ2nW1+gbmLyWQAMA0Kg8/oBvge3INcjrO1tUWUap8yolOpVkkvPeQfBavsUTcqu1i2rhHYFuKvDFEnb5YqLZEsJR31tVWI8+4ILxJ0chx6YbIoBnmlcS0wTRZKJCPujyak5W+0z8WZ+RbxsOMzjLPWgsQxbFYSYsb4gg1xwu2nBcuMIJz7fir43PEUhfmPP7obLvFMviNevDG8Ao+WNqvIujgBaHE2Xx5Xdq5wGcmwJJCthuhbCFCE4GFlWpExqLWrJX3GJ0JXSAkvniy4SW/IRCL07tsToHgRJUpE37sN5yVjuIQzyYxElTGRJoLVUsumJF8qR4BgaGPMxyElYRVqf49exqoNjMmr6WIXx2b7voZ0KRvewwnNRXQ9qPuzccS0jZDrF4GDwKxsI6c28EobfwFL200zu+JI4pUiHc4TN37K3k8HNkZB4uVDhGd3nIBlXEF35/crzka3Z8B6ApS3BThm7e5M3vri0g1l+DYMIAAIMlzQ1RDIEyaymWtOfWtAeMiwu/9UbWgR/VJjgUiIIRv4EdETgaXIcacFCT8K1UlbAretpmiybcd6haIvaFUZIkM6S+yeGqrxNkAhplX8COUJKEVLNXKsDkC1baGzGKNfqnIUu+5fDRb49ij2TY7Q6QpDNcu1jgX+Rzq7QbA7LPzNymF1lmTmi2Uhu7CAphvIC8k9zN+DP52DrimMhVLUWqBHFaDmuk1AD2UcUYGwYB93QdODaCoFbuGqbx/lIJX1CwjmTJnLfKb3el6O1wt0Q5EFA6Mfjc5BzmPiWkPg4BzRSGiPlVYS62Td4VcOA1znaENekvB66rvews/I9cK1BUMB4+qFM4utE1sW/ufU3CnHgf0XexCY46iSQVewFg5AKK2WhHh2PMQGuU5Da5J/OYoBWyqJ5jGkFkshzONlBSbv0Wt+GddASsN4wk8P0X9DNglRPQqKAHwOUug3Evd6LMD8ZdB14LLBTmVCmZWg57MAQ5Qc7IDVFkWRaRqRucAkxpe6bQhyRDosCWoqdQPzQEQ3VozhcUvDiKfYPSyj7FG3Nx2zhz3Ic6m6OMqCKb0tOp39JKeVqRwOFHsPsGZazECN9YCWnrcFhlBT3eTWitWDgXVGN+G2aYA/8EiO1BCC5QcA/uByxILRjk+8Mofs27pWy5znRXT6bMLngAIhuVSsz0+yGiqX9XRnieb8hJj2CPFStM36y1Pg+3rpkRvpIIDA+xbFsWxbFYABnkjDwUlQZ8vuGwcQ5VaE211OdsujKyoatHwT4S9vmk0x+r7Lfd6sAFGt43SewAdek9zQWgCNjplPCNrh5hdPg8PScGD7fEb0aPVBpIzkGCiSAQPPq3c2NkgPzwROZ+fyeyS/QUKOMgVd7Hj1QeGv9ei5LUCM2ivmyIBL08qpAPGc2W34TQ8Qqu/DaPgHGkvdRERYreK1ip78alHAUhsdI+iG4qUpmpMYHv3vEfBSO7+U+1M4KtZvZ/au3YUmPhVlH45YKUK7yBp3kDTvIHHxIMZT8cDck3aNAAFyHlnYexKQB1R4oc0obX9fS31KcczTlT17NkvYIG3l36wJA8dG5AktptAzpM3PebAAGV60ViFvo/BPebr8pbtaNknfVZrRqIqTyBceeTqW9EL8UiPyaED1NZDrWKudLAAEUg2gtFxzxx3C7+wxaGz5QMVFOk3z2jw2EzseunL/Ncl3AGjftvoTis3ZlTfpAyc1zilUhxwRhrdmvNZnIS1/cMy5uv9fbJ9kFH1TVckh9ORyaKJVvgc3uv70pFCp8wl3+1WQBEX4k6dNY7lUkyfwZ0j3HDVJjPfPLbqf13ddDuXBKsHGGVuNzFMqd6To23BLUQJaSATH3Ppx2ds32zWGv92OhrFP59IIPJM7S5EnJjGGnAfkQ9MgoIxQLuR0+jlHvvl8ZQ7MI2BBTDUATMrb8uC0vFaifAIsJtFaIKT/oKEJBe0POITcfnfVxOHV7OWgK9ZJ7dtLIwmk0nuhzbAPpzQKIb01ieHYYboEwe4oBUO0HgMBxnnogzyVhNTcwpbTK6G4MlC+ynOBuDlI4en6/+wdvhbtbM91Wp8dzgGOn9lfm8I61w7NcAcbsD06FRo4+t3Tfwy3smoSDdo9B33Ai0Y+8ymR0i731braIoJNSgwxbT3JBBmCVc/2HdQ1zUs430gnZRzpkKYGcb5+xTCkbB57LNJynXKJlzybRzUc8d1v2125GN7GK9152nOgH3nleCfs7gvNljOEtyZnedxRv9+e20q6kVU/DSI6MRqrw7n6JPRyZnQ00MDXJ38J7y47IeYyT/ppi2SCBRAdpoRVxzRFTk4nnhm8nqGyBYeDZbs6w1b52APJCCMfQQNXkssSvBaNoXoyGXykb5P5rUpYVvKXBQumQtiVguryqdz7X+93kNMeBGcCTxdfDYt8peamYztcaOP6zGmrbgsRQFg6Au2p/V9f/fb+9nreT9Re87hGqOF/JKXWQM9dnm20Pp2zLaTjbxgNsiJHZNMWvo9lpygXtKeow114eWqY9f1VWEGuCkgnJe/tiTzA4Dm0iOQCJ07ojRK1JySAzAUz9lU9WKSjPnm+K5wfuMu0zzM5hZWUwt9Vfzyn1TlXYCr0XeVaIqoD7z8bWsf84wLUZRigbgkCfjbDNl0KILyA4uyGAGEmNLtlqmn1JiXZC1uzluYd7anp9yAz2BGDIHVMLCrH4nWyAaW0Gv1RKgBJfbdSoiOZ230hDPQe5uaRyhg5iszZIydKzjfeeRvFCOGiDkudbfgYyL8xgaRf698CDt8II2ybziuFO7uFo4dzLd6rIgdtk4DWGdmkHtGJa8PgKDjpqSGz84f1zTCgwa1qGeyq7arselpH7Y/s5TWPyrS4Kz5mnOHj7njyOudEqMJLlqNMHDgKnP3jwFKeYEXcyxqGEVwIWpp1p1/bbVlE9pTIr6TnA0GVcFGwgyq2ILod0T25tTttp6XXdWQihWFTKJeDJL+g3p+A6LP+CkSOnLFYi0qIRXC5/ebc3vHzHA3wLIKNL0wzTXW+/bmwTU/L6vr/7vs6GsemGfKg276bGEeHZysKfc92NCCT822vjeKqd9bNDF2az5FYzoRfR8zkep7zlxvKe6lLDZGfueDQBj8vd2PhnMUwOZex3kAKiUh8BoWRRV30yspXQ0twfQE8H5wyf/OShQrlwbk+Rw0Ab5f43GgHc/PmDxWPJoHHipCaEldj6Wi3YXuQ91Rbj+MyVsK1zeSsqOXADQ7wH7zQmI/L4CkjxGTocL5ma960ZqHw4LTrLzLKrOBzgqOrNXUzSndx9kJ9iS3Dh1bBtpv1kUJ9XV2ymHrhLz95WlZ8oYtNc9+r9qvHzTXz9eFG5I8shrNcsxuT72xVcU5YdMc2zpmNCfSpd8RzZ4HXvsnw2MHLjp833CUi6Uc1aYv1FTJsDvrJ6DJgVnKCV+LL5PoIjQdgy7bwurD398EBdQCmE9g0xAPY0pGiv25dK8DloflyVnmtJiLuJsj28B4Yied57Rk/bnUU3CP0HxBwxxUlAVekG3Um+71wig3PuLmK9IWdH/nB2RPIAAAB/v+p8Nkec6etm5IZZtdDjdW9jT/uT2KE6IGHjxuuGWFwkiqUrzYQIoJXyq1U2qUCq46ciDz/PN+dxLDjEQnYvWPpLVzSr1C7Z0xB3ZRyREEMlQ3rVt5pLDirooUXNcqS12aCuEpupIfmdysDk4achW7y+hbTSqtrqCGzhYjIywtNV/y9KtBF+mOYUPCJHNSiwP05IkSYjRX7KAdk6J1CM1VmSYrt7THhDHvth0xPrRcU4AqqNywR7eGVuiq4ltNPkV01hJUbEVBe18z2L1bMITMATmOQgof3/yE5ucy98OjgoLv6+h7SuvwJLn0iUQQiKmlXN3m3k0ncmykPxcq/eDdKVtOgup7Qv7zLry0Rs3nFSW8h5w5b9NDfT2ScxgReD+3ziIyxOdg3TUHwn3/33x5zP9qN1Y1lsM23SMswYnbTpazqPti/IyIJ0ODnEa3YGJYiSZFFzXjYTEhEFqCF444q7nmR9Ut5F29k1inj2IyB5RzDw9KZJvdh3mnNnFeIPir+u3iAfrD6j1KjKWhKvdMVhUUw14S0jQlorq/xHxmKVtKleek922ea5u9hvTaHcfGKQAyGQu5e5LVkPGBEVdspMTJwQ53j/KRf1wMvyHVk+IF1CEcEcfZXxEexnBdMpVtEmX8DlROyKRCOsny+VUiHmqorXAJNjKn6fTUkVaZJx0b8cbueLvZcbbfaLrFfKep5ev7aF+Yr0tpilAghIQ9qqsc+rnX3PvDZ0tjX/EukgL9JSw0CNaV/HM2kDdlW8vA+0jzNYizJgM11fKz66dHLJz3eGHrf8NhziKgXnc0z0o02npG5zOabce85lVqS5kiVvwQoWuizsyQhNewbHvNc2/IoUwcewnQ+6AcoNXEZnCry8eNvPnulnXUnK3s8uKeIWTTU+eLYYjqhJdWLQdcyljPZsI/kjuXAv9s45zs1qviMOtCnoJTJUM6YLkQzBY6KF+K9NVN0OwsICa3hkU4tEYQyTxIRfTDgoRQvRsj43sPyRR1KhgVa5yoZObcgfceIUzVZYJQ9mkv/PxsOTV24Logk0L9KZHPeDkSSsE4Gwa5SiKUkribPUj/uiAH6xI6FJYwgVWmPEvLAeB5p6dBpOiRcQ/nnNs6gaVm5QY4GbN4eIIW8Yq11Un7q4rQtxbUlE9pIG5cIAkfnQrVoQMDRYrTQ0TtdTDuIwjnrGluqGCPefakTra/iCcjh6DDOViLe7ZUzG86NjQEUrLBqNn6yCtxDEE1SjPmCVjqKL6wzC8aP3tRu6kIZnTIGBrmJpeBEGfEpnvHnx+gXUejTVwcY4sq7rdJR0OPcyTmwAZOtGciC2k8bdT8oriY7fYp2WeC2d8H0uIoT5kJBHJRXTfNd6/6rNr6tIcil6jilShYRRyKuRrDq6+kGFW1+oeZnhwEV7QAC4jHJQdwCAWJ/82qFAK2Ut+2OSrtw2CsdYE3sIgW1IACNB36L/6nru8Gerd6jJ6fGBjJMGiPwLamxVPaizVqrn6N2Co2iug9dbMFA4+81vntXKbRgAH09dJ4Y/SBQM96KD7Wg1turNdB1C0M/DSYbIDZ8sq/ogSJ3mSADbDXbQ3XAB864mh6llauvqNM7kV0cqTFUIjMUUXvVAwZ3OUU3rgd2YN9EywK+8Fin7KFdUkL7gtESG6lXXV0yQj5CE1QYxLPmp/NlKHbBCsphzpB4gMGU6630+PsHhgvWM+gFlrsb73/6Q3R80VJdn42oBIagI2WtSdxGfmadYsd26MtC6v4xe51F/j6hmYQOmE733HrK0hhJamnzkZzDDGS2hkoB/Z5X9/pf3BODAziG8Ve/1mi3SgLEATBHte9mSQ9D8G9ENHOQWI0KgyYY4wCM8ixVtgjbLiGp8nkzMjSwp5VLB/iZHOyy7fUCXo54N2SNzkfbwiYsXVd8vcCAvdHv+yp0AFB5kck+7NdK7winxPEputDfuu5zPV2RY+Vp1BsZ+rfa8iThO9551k6anVtbRWlkLtYWeOkMFMO69ILcaSiCISdtnjd1U3xGI52SI44DoADkg1AeDWg8Xz3q2gwDFiT9BTjr4a3jRKGAhNGqGOAOyfx0JtfkAvbC8OUYl67fJrvTP00wpgtH//lfG0rOVlNUkseBnY+XBX0J/pBxREhHbdeCriiYhcn36YLidkLRBAFSchfI6nReRf6VHTq3hZ9ptvamTGvXwoLD+ykPA4XOaLMS2qwNjlafs8NYCN8QF0VbEvE0KHPi3alUeut7d4KD/menfIdaLZlaDjY/jNVmVi1KiowXh2SPupL/UHWhFGsFDtT3EKWys3Ny1N9ANe7cNY/xymh9onarWXI6AWlrQ5hX7S8YjVBcvtv5xfWOdPaMgqR2Uyk/SG4JgoxGHgUQAWUYmvdMhYMLez/R1+wLeP+5rKCfFqrKeMm0xdS6wYM3IyYOq/YBt8PBrxxJI5Hxj+QAGOpVf6beEt42k0INExKqoCvIGlpGNvn9hfXH75+7QQB5d627NNrtvEmXtDLGY5+3uc3JyIPkwGbvsO35y3hiHVMhwntJqqcFWgmo/j81SdFLfnB2rY/gwEAAjHAMudFJGhG1n7N9ymI9HrM7u2wDSe6k88BWukq42N+Je9kOa43a13uDcfRYv+juJRFWRkB6FsqUycja+PXihpTY2KUvJMbBSBgVOdK1j9HQg8quWrKqb74Xhb7fL8tW7HqAdsHOqnM8J8UHoSoDSRXHDUZxhCY8/Uq3D1mIUZMiCenoAdCTtTaHINziMszTlLtQqCcVtgipNlYhTAG7686eff8ZSIEZLHyHl4cRe6kg7ewrw7tBpgPrtbsFU2TyDYhBV+k4AOdsCotZGIu5uA2mOj+PcR+nEmu0xDd8lpqZpsYxUtfPWuY1JPKT2c5PPc2IWTgWzEvOI7cPH5BNyxmZ+/TF6zYly9YBJy/ilLL1rLvZLnEwa3tUojP3OeSaePdbTbIA2hZ8s0DMjldi24Xm7yYryb9oiNBixrXC31DQn+sSUBFLylv15X4Kjx5iRgWsnWRQ58L5YK/y6MjysXJ1G4Pg1qHgkoCNog7Nd4DUb+BlMnt7U6IAb99hIEV1n22huGDTCu/pTfZFTwBho0zcYUH6CHov3CAcBnpBw74MNymvrlaf8Dqj1NHiCpslOrcyGT+rkAj4p+BhLSvF5R/Fghqis4HwpoleRBBAFvQg99U2cYG1Jwteofsl+0Kbcmulxfoq+31hvOlXtWTLXPxLUyxZdCkZSvuCQZFKOVGa30xewsP4eA9zOuq6qJe/awSEnL+a4eCr3rSI1prh7CpfLcxRzuKhYZXw1HD2vjvpYan6/v/x/U9Fw9BOd/K0Yojn+p7UK1HWBM/s1TQTTpYf9QuxJd/aM2RnVsj4zQphHSauxbj9XHamMTXNEG5RJL+NlDrNbcu9WKsYIH+y4QW/haxqz175NUJvP/Bahgc4oOw/1zaBM2Gx5sO58iLV81EaiYJ6mzDrya8kxvTQgbucVcJ8OUFyLKscC3Uy18b2k3Q4ZCr+Pq5+gn5Na+zhVpYSDVQBf4Cao1G9KJbgKkKBie8J2gkmVN+QmkjuyN6bntc8M1MHNCm7ZsWWmE5ub/vIV/GHG4yl9Gj2FDnyNyd7w7Rdx3dRikfnGf3hihxePICxA2LrteSQ4B5mTxYhSeHHWlES/oYnZ6vb9HtrtSAibDymnb0UFhta7/63QppmvvgTGw2UPlnqrg8drMmp3gp2tOZqz5HnSXPpNCHey9VdBcsKCqU5j73fmb5j3yI6MkgghOt2n/DR2WIEvLjkW2X13BrCKfxkfSnntPaErP1DewkZitDnFu5N6KP9PXsAv08VqK/p47dDoW8yby0Yah0BxhuiuqsbgJ2Vd76lb0GODdzIZqcscQE4uacIy1f7gyn+rS5C9cPUsijEHMio3J+cLXRqhjCUTqKUEuzVyABuJqoEMAKL0GPr/qPSsyqDwM7OD0ZcmNz50T6EDk8YYKPetQRNBmrsRpslFJQQyGtDrJOXd6h4BlEvxfYMRHieETRNHJhr5Ccsf8ncaX/C6ZZeXyd2WjUVlBDDbcabDcMAOZMxkx9m7y3VOMLN9ZCz35JmuO3YHOJHByaVgZW6k5J86JU6q8k0Lb4Nc+B1K5us8OkSSSWqa0CguEwV+6obKmX//szYtJz3McdavIp+frfucGOdkI+ZlLVM+NBMb4AnKcOgcZtEqGcwJnO3+hHTge+PXCge8i4M8NOzrN0VGUeOnpBno6sIvJ3dLrFy9dnhZWQo3bqXA1qQN/YS3keIsPOZzUAJIuFikvFSBND2jdA7+IFKEajwznNNMNW/Atx5T1Hwdn5NwA1vdUUr5xv+AmkRTD1IUrxKOqK9iauwAPhUrCnH6sI8KFqBoK9b6rfPv+BkX8VLWk6IOqsRolMy+tl8l74Wbqa0owlVOM/ACWcxJ7IFrVPz7o1mE6Y/RLAvLppx7ssOEmQ6+nYEOmIB6bPrn7DhqEvM89zkl1lRfws+YyIw61KVA3XXXmeMp6QT7gqNHtn7SLrNXcuIrRExprxWH1nCuBD+b39sRgKN6ryN04oyWbyiLr6A7tmD8qmUUi8/8+sX87jZ7cJeu2rhfz2yGYViGX0WEAdHbTB8X4PIa6yGL9HbmkilMeC729kMNuTmDEj9+YVReJsia1dZ+ADFTBsVqTzt+kYhMo55elWGS8f+XYhqseREaDdvuO3u0qXfhHwXF4gOsDGgXVfId1f5TgAJfiLnLjCvLhvmRIhwK2P+xd5C22r6bBoPiEbbKPMBGwxprSP+79F9JEivQLTu95iq+SX7z+fHxT8r+ENrcSEzAiAD0f+pDvQHFXwrjaXVXmpkb3+vtjXDxCFpwqLUIVAg2E+z8qC4Z2L5hevurfGSqtDsCLM2HlSaXuH42xw4bGlHqb7aur4eVWKKgIieEXimcLhAsRGnPRlopbXjIp+1NEJn+qvV0FQGWqWoloNLrTCbwvq2SyVWnGS4B6/5heK6EkUPjwsvIKiqr47PufQqrIVCgejCmh+LkYABe87MXbW7a0Um3PUXsJ80bDMKcFHTIwZjOKJzyFN5c8RMO7UZ2gw/NBsOLK+t4z46VYlRxJCnnWR2VaHCtdSQwNOwDe8Me8KeUEgPPrzMCCwsvXHclaJARFSYuJHkebqL1OSIzVqGN7jWsrzV0dZmdVjBVch3UnovuEahrFRlFzb9QCaE7fPGd13gp1kEt7PjvnPwt3wHLZzFYoiTXcBPQu/UDHcI3yEP8IYmeTXKJD/X38dO6QFzhmEmDmSJgMFdsypfhvNDUg/7WKMZXZvKZstMPO9uxQn6jhHO1tUOZnk+gcxrgkQojryH6PSwfHuDeHVDi7KW20ftDhtecYwjiOPvsmhJECNbqiJbnDxaDqze0ccW0BxFidV2GxdZek0zlyeFSEMSYXOT9Cdn3gfNPodTlkEyKEWZJ80LSM6S/UqZp7fKJnS1OIgcWoOOcgpWliUQG6euSDFtlN7BS+k6wVfi0n+WjRG05EDNLP3IHhDgpRJZUT9fZqJJmpKlvU0BYyjtklCnebllLl+tf3xN02S4bv+qD4NdlTvqsXyofMfSvuYHQHReIh1MlreEoOS1BzGCFG1A6cZFnff1S0ECdnnq5GSZ8knPnL1dPNg3IvnAVUhewTohCA4folT2n6ItDy8zVTqDYK+5K9y5/KV8LRThWGMT9FJqnMe15K2mY5zDnEUQ/qIcx+7lHJiQBUXLfBPAIKFj/78BXSf9DQHcYDSAZOanIi+pq08rHChvndteS9Eyn9y+HyCylcAvLlPyiMjUbcMbBMshz+LTibCsYpxqSaBtRxI0007W0iP4SFS0U4ps9MBP8349jdGri7sa9mExNsRSde8qSm3G4RK/9kgHQZOhe7n2S+rBeYu0aBVNt77vOyUus+k/WlP7C7M5Lc+CgT1I+O5pbGMuV3Z/oyvUxR65qeu9AVKkuqJVfuJjO/Na8byjtdKUmu8JzP22bqEvX+huPUCzHVTE/UvTdhPeGKs6o8taj2HimMdQDBUNVaPVKEph1qKNZDBAJFQ6yXuQ6O1fal6XX3PmzBRRT1JwT0eEIERL13Gukwep/eGSiwZ9ady2cqBxtAtMX98s44a7IGBiK87aD0881h1zWHaW6Qn2V5H9Z2VzbtEnrjl+Vk7XMdxZK3aOhjnyx/thaAgi/g7bLcUXvEO+rS70177J0Gp5JPczQcE+fnf2Sv1oOUIveOhtLjZzB42rx9J+xGGwNFDrbv+PYHp9+4FOCf7Yalf28uoL+4eR2iaPQHgJHd9TfSLKujOd0LLduBHTHOox2IPqy5YTahSTf6rzd20nBNHJHzKiWqTGomNxxXfWywKAkm3YBYLr9HvugMqKdQRXOkCqtlAltNgUI/x8c6AcO1pLMuFok5zH6v7maUXIJ+lJ+3EebMPLdyJgk9i3/SBhzZ0lMX8qiskx84FfXZmhZ0rWlriQ3ZIYJaZnG/smTqkqS7NdM9dk7uX96AOKYZ9v8Kqg/n90GPi0thP+TfPXkAAA9K0j8WH7xneZsRDlB+a6RS07Fiu0RvgWbX6UmRV9vOyeJT+kIqrhjESB5amz37GG6gjJeI92LoZU8r30Z+b6I3wbgx2zMhHOLRA6jPN6ELrwFRoS7eAbHwbGGUrL72UDRYumlj3kp8Eqav5Ak+tY3q+8YZa/1nyXNnjRMR0VI7LvTKLMIw8ow4ky6G8lPy4PZSdYzLBRmdMCIxr5CGFuRQr9IEywwnqiXcC6kUH8mi/8JSFoSWo4Ta1RYbR6uaKCSgY5jRcHGx8kisOsrjQsJX6rdTt8pStd08tBfttZiWhW/nKc+uffGyXPVR5obueESnp5w2o1LcvERH5+tmvFZlZXvecbxT+4yl6OmiZ6IzH3Q8PVEMFiL6OiuBfQr1XpLcLlGL0RPinyvGcwDRxW7biJrThEpDch6jQG3+sxArAosF4LNdO1UfkJV7YpHWLdOQ+KSsz+/QNJhjLLs44I1g4NjSXmIIdR46tEry0WV+2Y8PbvPTujYLPZkaqEI+6X7JutLa73OIeFCh++nZg7f3pRklWYQ9s3LHciYrDreu1McnYP0W+M5ef9zmnzzeHJyjZzmfOwZRdhpR8nFe1lX9UVbqRXyqufs64PXQL61oRDL47c5aQ/p1ofvBcJCQ3lTFzn3uk64h+3sWdzbRRmoF6E/DM6mtQuffM9Ncn40iBdjgg4ZgkW1GTH4mESxdhPXooe5DcpdJRGvlNhB5lgUpwRxCgNXndtDUayJd9nbyHOikL+9JFEdAE5+4K1Afv9gsemtdSGxm7YOD02lxG9WN8+8Z6SmGWS2MsER/uqv9j+2+0LnTj1h6ssytzn9VCt/53Y7nQ8Dnj4psS2oHRpWdRKaREFgDFohan8Sb3w/b5saL/0gVRf+pBWLJ5VCOhwPYuI442yMvEEPrcEs/m98qdnrTZifokb0VDd7YcdFUlVUTs0Y5RlJO6lGSSrTwGUjb1hgKaS+7e3N89cBjtH0SLEgLFHxQWfpJR1sf/DZd3Lxl0OR4T1t0AfLGWI854Vpwym0b3cCLe9hOpkOpkOpkOolEu2jW7qnAkD2vpRqUo0Yo8UCPsAAANcIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" alt="Logo ECE École d'ingénieurs">
+    </div>
+    <div class="header-meta">
+      <div class="eyebrow">Document de cadrage pédagogique — Syllabus détaillé</div>
+      <h1>Operating Systems: Linux</h1>
+      <div class="subtitle">Fondamentaux, architecture système et pratique Linux</div>
+      <div class="pill-row">
+        <span class="pill gold">Semestre 6</span>
+        <span class="pill">Cycle ingénieur</span>
+        <span class="pill">ECE — École d'ingénieurs</span>
+        <span class="pill">28 h de CI/TP + 6 h de soutenances</span>
+        <span class="pill">Responsable : B. MNASSRI</span>
+      </div>
+    </div>
+  </div>
+  <div class="header-bar">
+    <span>Syllabus institutionnel détaillé — Cycle ingénieur</span>
+    <span>Document de cadrage pédagogique</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════ BODY -->
+<div class="page-body">
+
+  <!-- TABLE DES MATIÈRES -->
+  <nav class="toc">
+    <div class="toc-title">Table des matières</div>
+    <div class="toc-grid">
+      <a href="#presentation"><span class="toc-n">01</span>Présentation du cours</a>
+      <a href="#evaluation"><span class="toc-n">05</span>Modalités d'évaluation</a>
+      <a href="#vision"><span class="toc-n">02</span>Vision pédagogique du cours</a>
+      <a href="#projet"><span class="toc-n">06</span>Projet fil rouge</a>
+      <a href="#objectifs"><span class="toc-n">03</span>Objectifs pédagogiques</a>
+      <a href="#competences"><span class="toc-n">07</span>Acquis d’apprentissage et alignement pédagogique</a>
+      <a href="#syllabus"><span class="toc-n">04</span>Syllabus détaillé</a>
+      <a href="#positionnement"><span class="toc-n">08</span>Positionnement pédagogique</a>
+    </div>
+  </nav>
+
+  <!-- ── 01. PRÉSENTATION ── -->
+  <section class="section" id="presentation">
+    <h2 class="section-title"><span class="snum">01</span>Présentation du cours</h2>
+    <div class="info-grid">
+      <div class="ic dk"><div class="v">28h</div><div class="l">CI / TP</div></div>
+      <div class="ic dk"><div class="v">6h</div><div class="l">Soutenances de projet</div></div>
+      <div class="ic dk"><div class="v">34h</div><div class="l">Total encadré</div></div>
+      <div class="ic lt"><div class="v">7</div><div class="l">Parties thématiques</div></div>
+      <div class="ic lt"><div class="v">14</div><div class="l">Séances de 2h</div></div>
+      <div class="ic lt"><div class="v">S6</div><div class="l">Semestre — Cycle Ingénieur</div></div>
+    </div>
+    <p style="font-size:0.89rem;color:var(--gray);line-height:1.78;margin-bottom:12px;">
+      Le cours <strong style="color:var(--teal-dk);">Operating Systems: Linux</strong> constitue un enseignement fondamental du cycle ingénieur de l'ECE. Positionné au semestre 6, il vise à doter chaque étudiant d'une maîtrise solide et transversale de l'environnement Linux, indépendamment de sa future majeure. Ce cours est délibérément équilibré : il ne privilégie ni l'axe systèmes et réseaux (SI/SRE), ni l'axe embarqué ou DevOps, mais offre un socle commun robuste, directement applicable dans tous les contextes professionnels.
+    </p>
+    <p style="font-size:0.89rem;color:var(--gray);line-height:1.78;">
+      L'enseignement s'articule autour de sept parties thématiques de 4 heures chacune, associant des apports conceptuels à des travaux pratiques progressifs. La progression relie explicitement les abstractions étudiées : un processus manipule des fichiers via des descripteurs, consomme de la mémoire virtuelle, dialogue avec le noyau par appels système et s'inscrit dans un environnement réseau observable. Un projet fil rouge complète le dispositif et fait l'objet d'une soutenance organisée sur 6 heures.
+    </p>
+  </section>
+
+  <div class="sec-divider">Vision &amp; Objectifs</div>
+
+  <!-- ── 02. VISION ── -->
+  <section class="section" id="vision">
+    <h2 class="section-title"><span class="snum">02</span>Vision pédagogique du cours</h2>
+    <div class="vision-box">
+      <p>Le cours <strong>Operating Systems: Linux</strong> est positionné en semestre 6 comme un socle commun avant l'entrée en majeure. Il répond à un besoin pédagogique central : donner à tous les élèves ingénieurs une culture système solide, quel que soit leur futur parcours.</p>
+      <p>La philosophie du cours est volontairement exigeante : <strong>comprendre Linux avant de seulement l'utiliser</strong>. Les commandes ne sont pas étudiées comme une liste d'outils, mais comme des portes d'entrée vers les mécanismes internes du système : fichiers, processus, mémoire, appels système, permissions et réseau.</p>
+      <p>L'enseignement cherche un équilibre entre pratique opérationnelle, architecture système et diagnostic. Les ouvertures vers le cloud, les conteneurs, la cybersécurité ou l'embarqué sont introduites comme des contextes d'application, sans privilégier une spécialité.</p>
+      <div class="vision-grid">
+        <div class="vision-item" data-icon="🏗️">
+          <strong>Socle commun</strong>
+          <span>Préparer tous les étudiants aux majeures sans spécialisation prématurée.</span>
+        </div>
+        <div class="vision-item" data-icon="🔬">
+          <strong>Vision système</strong>
+          <span>Relier commandes, kernel, processus, mémoire et système de fichiers.</span>
+        </div>
+        <div class="vision-item" data-icon="🛠️">
+          <strong>Posture ingénieur</strong>
+          <span>Observer, analyser, diagnostiquer, justifier et documenter.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03. OBJECTIFS ── -->
+  <section class="section" id="objectifs">
+    <h2 class="section-title"><span class="snum">03</span>Objectifs pédagogiques</h2>
+    <p style="font-size:0.88rem;color:var(--gray);margin-bottom:16px;">À l'issue de ce cours, l'étudiant ingénieur sera capable de :</p>
+    <div class="obj-grid">
+      <div class="obj-item"><span class="obj-arrow">→</span>Maîtriser Linux en ligne de commande et naviguer dans un environnement terminal avec autonomie</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Comprendre l'architecture interne d'un système Linux et distinguer les couches kernel et user space</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Automatiser des tâches récurrentes à l'aide de scripts shell robustes et maintenables</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Analyser le comportement des processus, la gestion de la mémoire et les interactions avec le noyau</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Maîtriser le système de fichiers, les permissions et les mécanismes de contrôle d'accès</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Diagnostiquer un système Linux et utiliser les outils d'observation appropriés</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Disposer d'une culture système transversale applicable à toutes les majeures du cycle</div>
+      <div class="obj-item"><span class="obj-arrow">→</span>Appréhender les contextes applicatifs de Linux : réseau, conteneurs, systèmes embarqués</div>
+    </div>
+  </section>
+
+  <div class="sec-divider">Syllabus détaillé — 7 parties × 4h</div>
+
+  <!-- ── 04. SYLLABUS ── -->
+  <section class="section" id="syllabus">
+    <h2 class="section-title"><span class="snum">04</span>Syllabus détaillé</h2>
+
+    <!-- P1 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P1</span>
+        <div class="part-info">
+          <h3>Fondamentaux et architecture Linux</h3>
+          <div class="dur">4h — 2 séances de 2h</div>
+        </div>
+        <span class="part-counter">01 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Introduction à l'écosystème Linux, à la structure fondamentale d'un système d'exploitation et à la prise en main du terminal. Cette partie établit le vocabulaire et les réflexes de base indispensables à l'ensemble du cours, puis prépare la compréhension des processus, des fichiers et de la mémoire comme abstractions cohérentes du système.</p>
+        <div class="sys-box">
+          <span class="sys-label">Vue système</span>
+          <div class="sys-content">
+            <div class="stack-vertical">
+              <span>APP</span>
+              <span>↓</span>
+              <span>POSIX</span>
+              <span>↓</span>
+              <span>NOYAU</span>
+              <span>↓</span>
+              <span>MATÉRIEL</span>
+            </div>
+            <div class="sys-text">
+              <p>
+                Un système Linux peut être compris comme une architecture en couches : les applications interagissent avec le système via des interfaces standardisées (POSIX), implémentées par le noyau, qui assure l'accès et la gestion des ressources matérielles (CPU, mémoire, périphériques).
+              </p>
+              <p>
+                Cette vision permet de comprendre que toute commande, tout programme ou toute interaction utilisateur passe par une médiation du noyau.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Comprendre le rôle et la structure d'un OS</div>
+            <div class="obj-small">Distinguer kernel space et user space</div>
+            <div class="obj-small">Naviguer dans la hiérarchie FHS</div>
+            <div class="obj-small">Utiliser les commandes fondamentales avec confiance</div>
+          </div>
+          <div>
+            <div class="mini-label">Outils &amp; commandes</div>
+            <div class="tag-list">
+              <span class="tag">ls</span><span class="tag">cd</span><span class="tag">cp</span><span class="tag">mv</span><span class="tag">rm</span>
+              <span class="tag">file</span><span class="tag">stat</span><span class="tag">du</span><span class="tag">df</span><span class="tag">man</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span> Cette première partie installe ainsi le vocabulaire système qui sera réutilisé dans tout le cours : une commande correspond à un processus, manipule des fichiers soumis à des permissions et passe par une médiation du noyau. Cette vision sera réutilisée pour comprendre les processus, les systèmes de fichiers et la mémoire dans les parties suivantes.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Architecture &amp; environnement système</h4>
+            <ul>
+              <li>Rôle d'un système d'exploitation</li>
+              <li>Architecture Linux : kernel, bibliothèques, shell</li>
+              <li>Kernel space vs user space</li>
+              <li>Interface POSIX : abstraction entre applications et noyau</li>
+              <li>Hiérarchie FHS : /etc, /proc, /dev, /home, /var</li>
+              <li>Introduction au terminal et au shell</li>
+              <li>Notion de permissions (lecture, écriture, exécution) dans un système multi-utilisateur<span class="tag-ref">Approfondi en P5</span></li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">Activité</span>Exploration guidée de l'arborescence système, identification des répertoires clés et de leur rôle</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>Commandes fondamentales &amp; documentation</h4>
+            <ul>
+              <li>Navigation et gestion de fichiers</li>
+              <li>Métadonnées : stat, file, du, df</li>
+              <li>Consultation de documentation : man, --help</li>
+              <li>Bonnes pratiques d'utilisation du terminal</li>
+              <li>Notion de processus : chaque commande exécutée correspond à un processus lancé par le système<span class="tag-ref">Approfondi en P4</span></li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Mini-enquête système : localiser, décrire et analyser des fichiers de configuration réels à partir d'indices fournis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P2</span>
+        <div class="part-info"><h3>Commandes avancées et traitement de données</h3><div class="dur">4h — 2 séances de 2h</div></div>
+        <span class="part-counter">02 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Maîtrise des outils Unix de traitement de texte et de données, construction de pipelines complexes. Cette partie développe une compétence fondamentale de tout ingénieur Linux : transformer, filtrer et interpréter des flux de données depuis la ligne de commande, compétence qui sera réutilisée dans l'analyse de logs, le scripting et le diagnostic système.</p>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Maîtriser les flux standard et les redirections</div>
+            <div class="obj-small">Composer des pipelines multi-étapes efficaces</div>
+            <div class="obj-small">Analyser des fichiers de logs en temps réel</div>
+          </div>
+          <div>
+            <div class="mini-label">Outils &amp; commandes</div>
+            <div class="tag-list">
+              <span class="tag">grep</span><span class="tag">cut</span><span class="tag">sort</span><span class="tag">uniq</span><span class="tag">wc</span>
+              <span class="tag">awk</span><span class="tag">sed</span><span class="tag">tee</span><span class="tag">xargs</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span>Les pipelines matérialisent la philosophie Unix : chaque outil réalise une fonction limitée, mais leur composition permet de construire des traitements puissants. Cette logique prépare l'automatisation et le diagnostic par observation de flux.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Flux, pipes &amp; outils Unix classiques</h4>
+            <ul>
+              <li>Entrée standard, sortie standard, stderr</li>
+              <li>Opérateur pipe | et redirections &gt;, &gt;&gt;, 2&gt;</li>
+              <li>grep, cut, sort, uniq, wc</li>
+              <li>Composition de commandes simples</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">Activité</span>Extraction et comptage de données depuis un fichier texte structuré (journal, CSV, liste)</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>awk, sed &amp; pipelines complexes</h4>
+            <ul>
+              <li>Introduction à awk : filtrage par colonnes, calculs</li>
+              <li>Introduction à sed : substitution, suppression</li>
+              <li>Pipelines multi-étapes</li>
+              <li>Analyse de logs système réels</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Challenge pipeline : extraire des statistiques d'un journal d'accès web au format Combined Log Format</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P3</span>
+        <div class="part-info"><h3>Scripts shell et automatisation</h3><div class="dur">4h — 2 séances de 2h</div></div>
+        <span class="part-counter">03 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Conception et écriture de scripts shell robustes, gestion des erreurs, automatisation des tâches planifiées. Cette partie constitue une compétence différenciante pour tout ingénieur travaillant en environnement Linux.</p>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Écrire des scripts shell structurés et lisibles</div>
+            <div class="obj-small">Gérer les erreurs et les cas limites</div>
+            <div class="obj-small">Automatiser des tâches avec cron</div>
+          </div>
+          <div>
+            <div class="mini-label">Concepts clés</div>
+            <div class="tag-list">
+              <span class="tag">shebang</span><span class="tag">$?</span><span class="tag">if/else</span>
+              <span class="tag">for/while</span><span class="tag">functions</span><span class="tag">trap</span><span class="tag">cron</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span>Un script shell n'est pas seulement une suite de commandes : c'est un outil d'ingénierie qui doit gérer les erreurs, les entrées imprévues et produire des résultats reproductibles. La robustesse devient un critère technique évalué.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Structure d'un script &amp; contrôle de flux</h4>
+            <ul>
+              <li>Shebang, exécutabilité, conventions</li>
+              <li>Variables, arguments ($1, $@, $#)</li>
+              <li>Conditions : if, test, opérateurs de comparaison</li>
+              <li>Boucles : for, while, until</li>
+              <li>Fonctions et portée des variables</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">Activité</span>Écriture d'un script de sauvegarde incrémentale avec rapport de sortie et gestion des arguments</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>Robustesse, erreurs &amp; automatisation</h4>
+            <ul>
+              <li>Gestion des codes de retour et des erreurs</li>
+              <li>set -e, set -u, trap pour scripts fiables</li>
+              <li>Débogage : bash -x, set -x</li>
+              <li>Planification et automatisation avec cron</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Script de monitoring système : alerte si charge CPU ou mémoire dépasse un seuil, journalisation horodatée, planification cron</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P4</span>
+        <div class="part-info"><h3>Processus et exécution des programmes</h3><div class="dur">4h — 2 séances de 2h</div></div>
+        <span class="part-counter">04 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Compréhension du cycle de vie des processus, des mécanismes d'ordonnancement et des appels système fondamentaux. Cette partie constitue un pilier de la compréhension système : elle relie l'exécution d'un programme à la mémoire, aux fichiers ouverts, aux signaux et aux interactions avec le noyau.</p>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Comprendre le cycle de vie d'un processus</div>
+            <div class="obj-small">Maîtriser les appels fork, exec, wait</div>
+            <div class="obj-small">Analyser un programme en exécution avec strace</div>
+
+            <div class="obj-small">Comprendre le rôle des appels système (syscalls) comme interface entre programme et noyau</div>
+          </div>
+          <div>
+            <div class="mini-label">Outils &amp; commandes</div>
+            <div class="tag-list">
+              <span class="tag">ps</span><span class="tag">top</span><span class="tag">htop</span><span class="tag">kill</span>
+              <span class="tag">bg/fg</span><span class="tag">jobs</span><span class="tag">strace</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span>Un processus Linux est représenté dans le noyau par des structures décrivant son état, ses ressources, ses descripteurs de fichiers et son espace mémoire. Les descripteurs de fichiers (stdin, stdout, stderr) sont des interfaces essentielles entre les processus et le système de fichiers, et expliquent le fonctionnement des redirections et des pipelines. Les appels système permettent aux programmes d'interagir avec le noyau pour accéder à ces ressources.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Processus, threads &amp; cycle de vie</h4>
+            <ul>
+              <li>Processus vs threads : définitions et différences</li>
+              <li>États : running, sleeping, zombie, stopped</li>
+              <li>Appels système : fork, exec, wait</li>
+              <li>Gestion des jobs : &amp;, bg, fg, jobs</li>
+              <li>Signaux : SIGKILL, SIGTERM, SIGSTOP, SIGHUP</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">Activité</span>Observation de la création de processus parent/enfant, envoi de signaux et analyse de l'arbre de processus</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>Observation &amp; introspection système</h4>
+            <ul>
+              <li>ps, top, htop : lecture des colonnes PID, PPID, NI</li>
+              <li>Introduction à strace : traçage des appels système</li>
+              <li>Analyse d'un programme réel avec strace</li>
+              <li>Interprétation et documentation des résultats</li>
+              <li>Lien entre appels système et descripteurs de fichiers (open, read, write, close)</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Analyse comportementale d'un binaire : identifier ses ressources, fichiers ouverts et interactions réseau via strace</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P5</span>
+        <div class="part-info"><h3>Systèmes de fichiers et sécurité des accès</h3><div class="dur">4h — 2 séances de 2h</div></div>
+        <span class="part-counter">05 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Compréhension des mécanismes de stockage, d'organisation et de contrôle d'accès aux fichiers sous Linux. Cette partie montre comment les processus manipulent les fichiers via le noyau, et comment les permissions structurent la sécurité d'un environnement multi-utilisateur.</p>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Comprendre la structure des inodes</div>
+            <div class="obj-small">Gérer utilisateurs, groupes et permissions</div>
+            <div class="obj-small">Monter et démonter des systèmes de fichiers</div>
+          </div>
+          <div>
+            <div class="mini-label">Outils &amp; commandes</div>
+            <div class="tag-list">
+              <span class="tag">chmod</span><span class="tag">chown</span><span class="tag">chgrp</span>
+              <span class="tag">umask</span><span class="tag">ln</span><span class="tag">mount</span><span class="tag">lsblk</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span>Sous Linux, un fichier est une abstraction manipulée par les processus via des descripteurs. Les permissions, les liens et les inodes constituent donc à la fois un mécanisme d'organisation du stockage et un levier fondamental de sécurité.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Inodes, permissions &amp; utilisateurs</h4>
+            <ul>
+              <li>Structure d'un inode et métadonnées de fichier</li>
+              <li>Modèle de permissions rwx (propriétaire, groupe, autres)</li>
+              <li>Gestion des utilisateurs et groupes</li>
+              <li>chmod en notation octale et symbolique</li>
+              <li>umask : définir les permissions par défaut</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">Activité</span>Diagnostic et correction d'un système avec des droits incorrects : analyse, identification, correction documentée</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>Liens, montage &amp; types de FS</h4>
+            <ul>
+              <li>Liens symboliques vs liens physiques</li>
+              <li>Types de systèmes de fichiers : ext4, tmpfs, procfs</li>
+              <li>Montage et démontage : mount, umount, fstab</li>
+              <li>Exploration de /proc et /sys comme pseudo-FS</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Création d'une arborescence sécurisée multi-utilisateurs, gestion des droits partagés, montage d'un FS virtuel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P6 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P6</span>
+        <div class="part-info"><h3>Mémoire et observation du système</h3><div class="dur">4h — 2 séances de 2h</div></div>
+        <span class="part-counter">06 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Compréhension de la gestion de la mémoire par le noyau Linux, des interfaces /proc et /sys, et des outils d'observation système. Cette partie consolide les liens entre processus, mémoire virtuelle, fichiers virtuels du noyau et diagnostic argumenté des ressources.</p>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Comprendre la mémoire virtuelle et le paging</div>
+            <div class="obj-small">Lire et interpréter /proc et /sys</div>
+            <div class="obj-small">Diagnostiquer l'état d'un système en temps réel</div>
+          </div>
+          <div>
+            <div class="mini-label">Outils &amp; commandes</div>
+            <div class="tag-list">
+              <span class="tag">free</span><span class="tag">vmstat</span><span class="tag">uptime</span>
+              <span class="tag">/proc/meminfo</span><span class="tag">/proc/cpuinfo</span><span class="tag">sysctl</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span>La mémoire virtuelle isole les processus et protège le noyau. Elle explique pourquoi deux programmes peuvent utiliser des adresses similaires sans accéder aux mêmes données, et pourquoi l'observation système est indispensable au diagnostic.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Mémoire virtuelle &amp; noyau</h4>
+            <ul>
+              <li>Mémoire virtuelle : adressage, espaces d'adressage</li>
+              <li>Pagination (paging) et table des pages</li>
+              <li>Swap : rôle, configuration, surveillance</li>
+              <li>Cache disque : page cache, buffers</li>
+              <li>Rappel des appels système (syscalls) et leur rôle dans la gestion mémoire</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">Activité</span>Lecture et interprétation de /proc/meminfo, /proc/cpuinfo et /proc/[pid]/maps d'un processus en cours</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>Observation &amp; diagnostic système</h4>
+            <ul>
+              <li>free, vmstat : lecture et interprétation</li>
+              <li>uptime et load average : signification pratique</li>
+              <li>Observation de /sys : interface noyau</li>
+              <li>Scénario complet de diagnostic mémoire</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Diagnostic d'un système dégradé : identifier la source de surcharge (mémoire, CPU, I/O) à partir des outils d'observation</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P7 -->
+    <div class="part-card">
+      <div class="part-header">
+        <span class="part-badge">P7</span>
+        <div class="part-info"><h3>Ouvertures technologiques Linux</h3><div class="dur">4h — 2 séances de 2h</div></div>
+        <span class="part-counter">07 / 07</span>
+      </div>
+      <div class="part-body">
+        <p>Séance panoramique et volontairement équilibrée illustrant les grands domaines d'application de Linux : réseau, services, virtualisation légère et systèmes embarqués. Cette partie n'est pas une spécialisation mais une ouverture vers les contextes professionnels que les étudiants rencontreront dans leurs majeures.</p>
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Objectifs</div>
+            <div class="obj-small">Utiliser les outils réseau fondamentaux</div>
+            <div class="obj-small">Comprendre les conteneurs et leur différence avec les VMs</div>
+            <div class="obj-small">Appréhender les spécificités de Linux embarqué</div>
+          </div>
+          <div>
+            <div class="mini-label">Outils &amp; concepts</div>
+            <div class="tag-list">
+              <span class="tag">ip</span><span class="tag">ping</span><span class="tag">ss</span>
+              <span class="tag">ssh</span><span class="tag">systemctl</span><span class="tag">docker</span><span class="tag">BusyBox</span>
+            </div>
+          </div>
+        </div>
+        <div class="eng-box">
+          <span class="eng-icon">⚙️</span>
+          <div class="eng-content"><span class="eng-label">Point ingénieur</span>Les ouvertures technologiques montrent que les mêmes fondamentaux — processus, fichiers, mémoire, réseau — se retrouvent dans les serveurs, les conteneurs et l'embarqué. Le cours privilégie donc les invariants système plutôt qu'un outil ou métier particulier.</div>
+        </div>
+        <div class="seance-grid">
+          <div class="sb">
+            <div class="s-lbl">Séance 1</div>
+            <h4>Réseau Linux &amp; services</h4>
+            <ul>
+              <li>Interfaces réseau : ip addr, ip route</li>
+              <li>Diagnostics réseau : ping, ss, traceroute</li>
+              <li>Résolution DNS : dig, nslookup</li>
+              <li>Services et démons : systemctl, journalctl</li>
+              <li>SSH : connexion, clés publiques/privées</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Connexion SSH, exploration d'un service actif, diagnostic réseau complet sur un environnement de test</div>
+          </div>
+          <div class="sb s2">
+            <div class="s-lbl">Séance 2</div>
+            <h4>Conteneurs &amp; Linux embarqué</h4>
+            <ul>
+              <li>VM vs conteneurs : différences architecturales</li>
+              <li>Principes de Docker : image, conteneur, namespace</li>
+              <li>Linux embarqué : spécificités et contraintes ressources</li>
+              <li>Systèmes minimalistes : BusyBox, Buildroot</li>
+              <li>Synthèse transversale du cours</li>
+            </ul>
+            <div class="tp-box"><span class="tp-lbl">TP</span>Lancement d'un conteneur minimal OU exploration d'un système Linux embarqué ; synthèse comparative en binôme</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sec-divider">Évaluation &amp; Projet</div>
+
+  <!-- ── 05. ÉVALUATION ── -->
+  <section class="section" id="evaluation">
+    <h2 class="section-title">
+      <span class="snum">05</span>Modalités d'évaluation
+    </h2>
+
+    <div class="eval-header">
+      <div class="eval-card">
+        <div class="eval-pct">35%</div>
+        <div class="eval-name">Contrôles continus</div>
+        <div class="eval-desc">
+          Tests SEB (NS1), interrogation écrite (NS2) et rendus de TP (NS3).
+        </div>
+      </div>
+
+      <div class="eval-card">
+        <div class="eval-pct">30%</div>
+        <div class="eval-name">Devoir surveillé</div>
+        <div class="eval-desc">
+          Évaluation écrite individuelle (NDS) : concepts système, exercices et analyse de cas.
+        </div>
+      </div>
+
+      <div class="eval-card accent">
+        <div class="eval-pct">35%</div>
+        <div class="eval-name">Projet et soutenance</div>
+        <div class="eval-desc">
+          Livrable du projet (NP1) et soutenance orale (NP2) — détails en section 06.
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Modalité</th>
+          <th>Coefficient</th>
+          <th>Description</th>
+          <th>Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Contrôles continus</td>
+          <td><span class="pct">35%</span></td>
+          <td>
+            Évaluation continue des connaissances et compétences pratiques en environnement Linux (commandes système, scripting Shell et pipelines), à travers six tests courts sous SEB (<strong>NS1</strong>), une interrogation écrite individuelle (<strong>NS2</strong>) et l'évaluation de deux rendus de TP sélectionnés aléatoirement parmi les sept (<strong>NS3</strong>).
+          </td>
+          <td>
+            Individuel et équipe — tout au long du cours
+          </td>
+        </tr>
+
+        <tr>
+          <td>Devoir surveillé</td>
+          <td><span class="pct">30%</span></td>
+          <td>
+            Évaluation individuelle écrite des connaissances et de la compréhension des concepts fondamentaux des systèmes d'exploitation (architecture, processus, gestion de la mémoire et systèmes de fichiers), à travers des questions de cours, des exercices d'application et des cas d'analyse. Note : <strong>NDS</strong>.
+          </td>
+          <td>
+            Individuel — 1h30 — sans document
+          </td>
+        </tr>
+
+        <tr>
+          <td>Projet et soutenance</td>
+          <td><span class="pct">35%</span></td>
+          <td>
+            Évaluation de la maîtrise transversale des compétences acquises en environnement Linux à travers un projet appliqué réalisé en binôme ou trinôme. La notation repose sur le livrable (<strong>NP1</strong>) et la soutenance orale (<strong>NP2</strong>), selon les critères détaillés en section 06.
+          </td>
+          <td>
+            Équipe et individuel — livrable + présentation 10 min + questions 15 min
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Détail des coefficients -->
+    <h3 style="margin:30px 0 14px;font-family:var(--serif);color:var(--teal-dk);font-size:1.05rem;">Détail des coefficients</h3>
+
+    <table class="coefficients-table coefficients-blocs">
+      <thead><tr><th>Bloc</th><th>Évaluation</th><th>Note</th><th>Poids dans le bloc</th><th>Poids final</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4" class="bloc-name">Contrôle continu</td><td>Tests SEB (5 meilleures notes sur 6)</td><td>NS1</td><td>40 %</td><td>14 %</td></tr>
+        <tr><td>Interrogation écrite</td><td>NS2</td><td>30 %</td><td>10,5 %</td></tr>
+        <tr><td>Rendus de TP (2 sur 7)</td><td>NS3</td><td>30 %</td><td>10,5 %</td></tr>
+        <tr class="bloc-moyenne"><td>Moyenne du bloc</td><td>MCC</td><td>—</td><td>35 %</td></tr>
+        <tr><td rowspan="2" class="bloc-name">Devoir surveillé</td><td>Épreuve écrite individuelle</td><td>NDS</td><td>100 %</td><td>30 %</td></tr>
+        <tr class="bloc-moyenne"><td>Moyenne du bloc</td><td>MDS</td><td>—</td><td>30 %</td></tr>
+        <tr><td rowspan="3" class="bloc-name">Projet et soutenance</td><td>Livrable du projet</td><td>NP1</td><td>35 %</td><td>12,25 %</td></tr>
+        <tr><td>Soutenance orale individuelle</td><td>NP2</td><td>65 %</td><td>22,75 %</td></tr>
+        <tr class="bloc-moyenne"><td>Moyenne du bloc</td><td>MP</td><td>—</td><td>35 %</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-finale calcul-deux-methodes">
+      <div class="note-titre">Calcul de la note finale — deux méthodes équivalentes</div>
+      <div class="calcul-method-title">Méthode 1 — À partir des six notes</div>
+      <div class="note-equation calcul-formule">NF = 0,14 × NS1 + 0,105 × NS2 + 0,105 × NS3<br>+ 0,30 × NDS + 0,1225 × NP1 + 0,2275 × NP2</div>
+      <div class="calcul-method-title">Méthode 2 — À partir des moyennes de blocs</div>
+      <div class="note-equation calcul-formule calcul-intermediaire">MCC = 0,40 × NS1 + 0,30 × NS2 + 0,30 × NS3<br>MDS = NDS<br>MP = 0,35 × NP1 + 0,65 × NP2</div>
+      <div class="note-equation calcul-formule calcul-conclusion">NF = 0,35 × MCC + 0,30 × MDS + 0,35 × MP</div>
+      <p class="calcul-note">Les deux méthodes donnent la même moyenne pondérée, hors éventuelle règle exploratoire de plafonnement. Toutes les notes et moyennes sont sur 20.</p>
+    </div>
+  </section>
+
+  <!-- ── 06. PROJET ── -->
+  <section class="section" id="projet">
+    <h2 class="section-title"><span class="snum">06</span>Projet fil rouge</h2>
+    <div class="project-card">
+      <div class="project-head">
+        <h3>Une démarche d'ingénierie système, sans spécialisation dominante</h3>
+        <p>Le projet fil rouge constitue un élément central du cours. Il place les étudiants en situation d'ingénieur face à un système Linux réel ou simulé, avec une exigence d'analyse, de justification et de communication technique.</p>
+      </div>
+      <div class="project-body">
+        <div class="project-note">
+          <p>Il vise à mobiliser de manière intégrée les concepts étudiés tout au long du module : processus, mémoire, système de fichiers, permissions et outils d'observation.</p>
+          <p>Contrairement aux travaux pratiques guidés, le projet repose sur une démarche d'investigation autonome : formuler des hypothèses, observer le système, interpréter les résultats, proposer des corrections ou automatisations, puis justifier les choix réalisés.</p>
+          <p>Les sujets sont volontairement ouverts afin de préserver le caractère transversal du cours et de ne pas orienter les étudiants vers une spécialité particulière — cybersécurité, cloud, systèmes embarqués ou SI/SRE.</p>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="mini-label">Compétences développées</div>
+            <div class="obj-small">Analyser un problème système de manière structurée</div>
+            <div class="obj-small">Identifier des causes possibles à partir d'indices observables</div>
+            <div class="obj-small">Mettre en œuvre une solution technique argumentée</div>
+            <div class="obj-small">Valider et interpréter les résultats obtenus</div>
+          </div>
+          <div>
+            <div class="mini-label">Livrables attendus</div>
+            <div class="obj-small">Production technique vérifiable : script, configuration, analyse ou démonstration</div>
+            <div class="obj-small">Documentation courte expliquant la démarche</div>
+            <div class="obj-small">Justification des choix et des limites rencontrées</div>
+            <div class="obj-small">Soutenance : 10 min de présentation collective + 15 min de questions individuelles (créneau de 30 min par équipe, transition et délibération comprises)</div>
+          </div>
+        </div>
+
+        <div class="mini-label" style="margin-top:20px;">Critères d’évaluation du projet — deux notes distinctes</div>
+<div class="project-rubric-title">NP1 — Livrable du projet <span>Note collective · 35 % du bloc projet · 12,25 % de la note finale</span></div>
+<div class="criteria-grid">
+<div class="crit-item"><span class="cpct">35 %</span><span class="clbl">Qualité technique</span></div>
+<div class="crit-item" style="background:var(--teal-dk);"><span class="cpct">30 %</span><span class="clbl">Démarche d’analyse</span></div>
+<div class="crit-item" style="background:var(--teal-md);"><span class="cpct">20 %</span><span class="clbl">Documentation</span></div>
+<div class="crit-item" style="background:var(--gold);"><span class="cpct">15 %</span><span class="clbl">Reproductibilité</span></div>
+</div>
+<div class="project-rubric-title">NP2 — Soutenance orale individuelle <span>Note individuelle · 65 % du bloc projet · 22,75 % de la note finale</span></div>
+<div class="criteria-grid">
+<div class="crit-item"><span class="cpct">35 %</span><span class="clbl">Maîtrise technique</span></div>
+<div class="crit-item" style="background:var(--teal-dk);"><span class="cpct">30 %</span><span class="clbl">Justification des choix</span></div>
+<div class="crit-item" style="background:var(--teal-md);"><span class="cpct">25 %</span><span class="clbl">Réponses aux questions</span></div>
+<div class="crit-item" style="background:var(--gold);"><span class="cpct">10 %</span><span class="clbl">Clarté de présentation</span></div>
+</div>
+<p class="project-rubric-note">Chaque grille totalise 100 % de sa propre évaluation. La moyenne du bloc projet est calculée ainsi : <strong>0,35 × NP1 + 0,65 × NP2</strong>. La soutenance NP2 est évaluée individuellement par un jury distinct du chargé de TP ayant proposé ou encadré le sujet.</p>
+</div>
+    </div>
+  </section>
+
+  <div class="sec-divider">Compétences &amp; Positionnement</div>
+
+  <!-- ── 07. COMPÉTENCES ── -->
+  <section class="section" id="competences">
+    <h2 class="section-title"><span class="snum">07</span>Acquis d’apprentissage et alignement pédagogique</h2>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <h4><span class="cc" style="background:var(--teal);"></span>Techniques</h4>
+        <ul>
+          <li>Utiliser Linux en ligne de commande avec autonomie</li>
+          <li>Écrire des scripts shell robustes et documentés</li>
+          <li>Analyser les processus et les ressources système</li>
+          <li>Gérer les permissions et la sécurité d'accès</li>
+          <li>Diagnostiquer un système dégradé</li>
+          <li>Utiliser les outils réseau fondamentaux</li>
+          <li>Comprendre les appels système</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h4><span class="cc" style="background:var(--gold);"></span>Méthodologiques</h4>
+        <ul>
+          <li>Décomposer un problème système en étapes</li>
+          <li>Lire et exploiter la documentation technique</li>
+          <li>Construire une démarche de diagnostic</li>
+          <li>Automatiser une tâche de manière fiable</li>
+          <li>Tester et valider un script ou une configuration</li>
+          <li>Rédiger un rapport technique structuré</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <h4><span class="cc" style="background:#2E7D52;"></span>Transversales</h4>
+        <ul>
+          <li>Culture système Linux applicable à tous contextes</li>
+          <li>Capacité d'adaptation à un environnement inconnu</li>
+          <li>Autonomie technique face à un problème nouveau</li>
+          <li>Communication technique à l'oral (soutenance)</li>
+          <li>Travail collaboratif sur un projet technique</li>
+          <li>Curiosité et posture de veille technologique</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin:30px 0 14px;font-family:var(--serif);color:var(--teal-dk);font-size:1.05rem;">Acquis d’apprentissage — Niveaux de Bloom, critères et évaluation</h3>
+<table>
+<thead><tr><th>À l’issue du cours, l’étudiant sera capable de…</th><th>Niveau de Bloom</th><th>Critères de maîtrise attendus</th><th>Modalités d’évaluation</th></tr></thead>
+<tbody>
+<tr><td>Expliquer l’architecture d’un système Linux et le rôle du noyau</td><td>Comprendre</td><td>Identifier les couches du système et relier commandes, appels système, fichiers et mémoire virtuelle</td><td>Tests SEB, devoir surveillé, soutenance</td></tr>
+<tr><td>Utiliser le terminal pour naviguer et administrer un système Linux</td><td>Appliquer</td><td>Manipuler les fichiers et répertoires et exécuter les commandes courantes d’administration</td><td>Rendus de TP, devoir surveillé</td></tr>
+<tr><td>Concevoir et tester un script shell pour automatiser une tâche d’administration</td><td>Créer</td><td>Gérer les arguments, les erreurs, les journaux et la reproductibilité</td><td>Rendus de TP, projet</td></tr>
+<tr><td>Analyser le comportement des processus et leurs interactions avec le système</td><td>Analyser</td><td>Interpréter les indicateurs relatifs aux processus, à la mémoire, aux fichiers et au réseau</td><td>Rendus de TP, projet, soutenance</td></tr>
+<tr><td>Évaluer l’état de fonctionnement et les performances d’un système Linux</td><td>Évaluer</td><td>Exploiter des outils d’observation pour diagnostiquer et justifier une conclusion</td><td>Devoir surveillé, projet, soutenance</td></tr>
+<tr><td>Distinguer les usages de Linux dans différents environnements (serveur, cloud, embarqué)</td><td>Comprendre</td><td>Expliquer les caractéristiques et les contraintes propres à chaque contexte</td><td>Tests SEB, devoir surveillé</td></tr>
+<tr><td>Sécuriser les accès de base d’un système Linux</td><td>Appliquer</td><td>Configurer et vérifier les permissions, les groupes et les droits d’accès</td><td>Rendus de TP, devoir surveillé</td></tr>
+<tr><td>Documenter et défendre une démarche technique</td><td>Évaluer</td><td>Produire un rapport clair, vérifiable et argumenté, et justifier les choix réalisés</td><td>Projet, soutenance</td></tr>
+</tbody>
+</table>
+</section>
+
+  <!-- ── 08. POSITIONNEMENT ── -->
+  <section class="section" id="positionnement">
+    <h2 class="section-title"><span class="snum">08</span>Positionnement Pédagogique</h2>
+    <div class="pos-box">
+      <p>Ce cours est conçu comme un <strong>socle commun du semestre 6</strong>, antérieur au choix de majeures. Il s'adresse à tous les étudiants ingénieurs de l'ECE, quelle que soit leur orientation future, et garantit une compréhension système solide, transversale et durable.</p>
+      <p>L'enseignement reste volontairement équilibré : les domaines du DevOps, de la cybersécurité, des systèmes embarqués et du cloud sont introduits comme <em>illustrations et ouvertures</em>, sans jamais constituer un axe dominant. Les fondamentaux système priment sur toute spécialisation.</p>
+      <div class="majors-grid">
+        <div class="major-item"><span class="major-icon">🔐</span>Cybersécurité</div>
+        <div class="major-item"><span class="major-icon">☁️</span>Cloud &amp; DevOps</div>
+        <div class="major-item"><span class="major-icon">📊</span>Data &amp; Intelligence Artificielle</div>
+        <div class="major-item"><span class="major-icon">⚙️</span>Systèmes embarqués</div>
+        <div class="major-item"><span class="major-icon">🌐</span>Systèmes d'information</div>
+        <div class="major-item"><span class="major-icon">📡</span>Réseaux &amp; Télécommunications</div>
+      </div>
+    </div>
+
+    <div class="concl">
+      <h3>Conclusion pédagogique</h3>
+      <p>Un étudiant ayant suivi ce cours avec succès dispose d'un socle système commun avant l'entrée en majeure. Il sait utiliser Linux, mais surtout raisonner sur Linux : relier processus, mémoire, fichiers, permissions, appels système et réseau pour expliquer un comportement observé. Cette autonomie technique permet d'aborder sereinement la cybersécurité, le cloud, la data, les systèmes embarqués ou les environnements SI/SRE sans dépendre d'une spécialisation prématurée. Le cours installe ainsi une capacité durable à analyser, diagnostiquer, automatiser, documenter et justifier une démarche technique.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- ══════════════════════════════════ FOOTER -->
+<footer class="page-footer">
+  <div class="footer-brand">
+    Operating Systems: Linux — Semestre 6
+  </div>
+  <div class="footer-center">
+    © ECE Paris
+  </div>
+  <div class="footer-right">
+    Responsable : B. MNASSRI
+  </div>
+</footer>
+
+</body>
+</html>

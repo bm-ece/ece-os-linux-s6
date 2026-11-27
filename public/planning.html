@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head>
+<link rel="icon" type="image/png" href="assets/favicon-linux-ece.png"><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>ECE ING3 | Planning Operating Systems: Linux 2027</title><style>
+:root{--teal:#00787C;--dark:#005457;--gold:#D4900A;--light:#E0F4F5;--ink:#1A2629;--line:#C8DCDD}*{box-sizing:border-box}body{margin:0;background:#f5f9f9;color:var(--ink);font-family:Outfit,Arial,sans-serif}header{background:linear-gradient(125deg,#005457,#00787C);color:white;padding:36px max(28px,4vw)}.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.8}h1{font-family:Georgia,serif;font-size:34px;margin:8px 0}.subtitle{opacity:.85}main{padding:30px 3vw 60px}.metrics{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}.metric{background:white;border:1px solid var(--line);border-radius:9px;padding:14px 20px;font-size:13px}.metric strong{color:var(--teal);font-size:20px;display:block}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:20px 0}.legend{display:flex;flex-wrap:wrap;gap:15px;font-size:12px}.dot{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:middle}.scroll{overflow-x:auto;background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 30px #00545712}table{border-collapse:separate;border-spacing:0;width:100%;min-width:1600px;table-layout:fixed}th,td{border-right:1px solid #d9e6e6;border-bottom:1px solid #d9e6e6;padding:9px 6px;text-align:center;vertical-align:middle}thead th{background:var(--dark);color:white;font-size:12px}thead tr:nth-child(2) th{background:#087d80;font-size:11px}.rowlabel{width:180px;min-width:180px;text-align:left!important;padding:13px 14px;font-size:12px;font-weight:700;background:#edf6f6;color:#005457;position:sticky;left:0;z-index:2}thead .rowlabel{background:#005457;color:white;z-index:4}.week{font-weight:700}.week small{display:block;opacity:.75;font-weight:400;margin-top:3px}.slot{height:84px;font-size:11px;line-height:1.35}.pill{display:block;border-radius:7px;padding:9px 5px;font-weight:600;height:100%;align-content:center}.course{background:#dff3f3;color:#005457;border-top:3px solid #00787C}.tp{background:#fdf0d8;color:#825700;border-top:3px solid #D4900A}.seb{background:#eaf0f7;color:#405f83;border:1px solid #7898BE;font-size:10px}.project{background:#00787C;color:white}.holiday{background:#eef1f2;color:#718083}.defense{background:#f5e6cc;color:#815400;border-top:3px solid #D4900A}.muted{color:#a6b7b9}.phase{font-size:10px;font-weight:700;letter-spacing:.3px;color:#005457}.projectphase{background:#e0f4f5;color:#005457;font-size:11px}.note{font-size:12px;color:#5d7478;margin-top:18px;line-height:1.6}button{background:#00787C;color:white;border:0;border-radius:7px;padding:11px 16px;cursor:pointer;font-weight:700}.foot{margin-top:28px;font-size:11px;color:#6b8589}@media print{@page{size:A3 landscape;margin:9mm}body{background:white}header{padding:18px 25px}main{padding:14px}.toolbar button{display:none}.scroll{overflow:visible;box-shadow:none}table{min-width:0}.rowlabel{width:130px;min-width:130px}th,td{padding:5px 3px}.slot{height:68px;font-size:9px}.pill{padding:5px 2px}.metric{padding:7px 12px}h1{font-size:25px}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* Blocs verticaux S14 et S15, sans séances */
+.fullholiday{background:#dce4e6!important;color:#3d5054!important;font-weight:700!important;}
+.fullproject{background:#d3eeed!important;color:#005457!important;font-weight:700!important;}
+.merged-block{font-size:14px!important;letter-spacing:.02em;vertical-align:middle;text-align:center;border-left:2px solid #fff;}
+@media print{.merged-block{font-size:11px!important}}
+.seb small{display:block;font-size:9px;font-weight:500;margin-top:3px;line-height:1.25}.seb{height:auto;min-height:65px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+</style><style>/* En-têtes S14/S15 colorés, sans texte répété */
+.empty-week { color:transparent !important; }
+.merged-block { vertical-align:middle !important; text-align:center !important; font-weight:800; font-size:13px; letter-spacing:.01em; }
+.seb small{display:block;font-size:9px;font-weight:500;margin-top:3px;line-height:1.25}.seb{height:auto;min-height:65px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+</style><style>
+/* Continuité visuelle : un seul bloc de la ligne syllabus aux tests SEB */
+.fullholiday.merged-block{background:#dce4e6!important;border:0!important;border-right:1px solid #b7c9cc!important;border-bottom:1px solid #b7c9cc!important;}
+.fullproject.merged-block{background:#d3eeed!important;border:0!important;border-right:1px solid #b7c9cc!important;border-bottom:1px solid #b7c9cc!important;}
+thead th.empty-week{border-left:0!important;border-right:1px solid #b7c9cc!important;border-bottom:0!important;}
+.merged-block{background-clip:border-box!important;}
+.session-title{display:block;font-weight:700;line-height:1.4}.session-detail{display:block;font-size:11px;font-weight:400;opacity:.72;margin-top:6px;line-height:1.4}
+
+/* Légende : couleurs de remplissage exactement identiques aux blocs du Gantt */
+/* Légende : carrés pleins, alignement et espacement identiques à la référence */
+.legend{display:flex;align-items:center;flex-wrap:wrap;column-gap:17px;row-gap:10px;font-size:12px}
+.legend > span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.legend .dot{display:inline-block;flex:0 0 11px;width:11px;height:11px;margin:0;border:0;border-radius:3px;vertical-align:initial}
+.legend-course{background:#00787C}
+.legend-tp{background:#D4900A}
+.legend-seb{background:#7898BE}
+.legend-project{background:#005457}
+.legend-holiday{background:#BFCBCD}
+.legend-interro{background:#8b70b4}
+/* Projet transversal : jalons visuels harmonisés avec les cartes cours/TP */
+td.projectphase{background:#fff;padding:8px 5px;height:74px;vertical-align:middle}
+.project-milestone{display:flex;min-height:56px;height:100%;align-items:center;justify-content:center;padding:9px 5px;border-radius:7px;font-size:10.5px;font-weight:700;line-height:1.35;color:#005457;background:#e0f4f5;border-top:3px solid #005457}
+.project-milestone.start{background:#e0f4f5}
+.project-milestone.develop{background:#d6eeef}
+.project-milestone.autonomous{background:#eef1f2;border-top-color:#BFCBCD;color:#3d5054}
+.project-milestone.finalize{background:#d3eeed}
+.project-milestone.defend{background:#d3eeed;border-top-color:#005457;color:#005457}
+.project-milestone.defend{flex-direction:column;text-align:center;gap:3px}.project-milestone.defend .defend-title{display:block;font-weight:700;white-space:nowrap}.project-milestone.defend .defend-subtitle{display:block;margin-top:0;font-weight:500;font-size:.94em;line-height:1.35;color:inherit}@media print{td.projectphase{height:58px}.project-milestone{min-height:42px;font-size:9px}}
+.seb small{display:block;font-size:9px;font-weight:500;margin-top:3px;line-height:1.25}.seb{height:auto;min-height:65px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+</style><style>/* Interrogation écrite : carte distincte, harmonisée avec le planning */
+.interro{background:#f1eafb;color:#5b4384;border-top:3px solid #8b70b4;min-height:65px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:10px}
+.interro small{display:block;font-size:9px;font-weight:500;margin-top:3px;line-height:1.25}
+
+/* Taille écran harmonisée : parties du syllabus, cours et TP à 10 px. */
+@media screen { .phase, .pill.course, .pill.tp { font-size:10px; } }
+</style><style>
+/* Descriptifs des séances : survol, clavier et écran tactile. */
+td.slot[data-description] { cursor: help; }
+td.slot[data-description]:focus-visible { outline: 2px solid #00787C; outline-offset: -3px; }
+#session-tooltip {
+  position: fixed; z-index: 99999; display: none; max-width: 340px;
+  padding: 11px 13px; border-radius: 8px; border: 1px solid #9ac8ca;
+  background: #fff; color: #1a2629; box-shadow: 0 8px 24px #003d4033;
+  font: 13px/1.5 Outfit, Arial, sans-serif; text-align: left;
+  pointer-events: none; overflow-wrap: anywhere;
+}
+#session-tooltip.visible { display: block; }
+@media print { #session-tooltip { display: none !important; } }
+</style><style>
+/* Devoir surveillé : date non fixée, sans affectation à une semaine. */
+.ds-cell{background:#fff;padding:8px 10px;height:67px;text-align:center}
+.ds-block{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:265px;padding:9px 18px;border-radius:7px;background:#fff0e9;border-top:3px solid #c45532;color:#87351d;font-size:10px;line-height:1.4}
+.ds-block strong{font-weight:700}.ds-block span{font-weight:500}
+@media print{.ds-cell{height:48px}.ds-block{padding:5px 12px;font-size:9px}}
+</style><style>.legend-ds{background:#c45532}</style><style>
+/* Bouton d’impression harmonisé avec le syllabus — écran uniquement */
+.print-btn { position:fixed; top:18px; right:24px; z-index:9999; background:#D4900A; color:#fff; border:0; border-radius:8px; padding:11px 18px; font-family:Outfit,Arial,sans-serif; font-size:13px; font-weight:600; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.18); }
+.print-btn:hover { background:#B87900; }
+@media print { .print-btn { display:none!important; } }
+</style>
+<!-- Harmonisation des boutons d’impression : style commun, légèrement réduit. -->
+<style id="ece-print-button-unified">
+@media screen {
+  .print-btn {
+    position: fixed; top: 18px; right: 24px; z-index: 9999;
+    box-sizing: border-box; background: #D4900A; color: #fff;
+    border: 0; border-radius: 7px; padding: 9px 15px;
+    font-family: Arial, sans-serif; font-size: 12px; font-weight: 600;
+    line-height: 1.35; letter-spacing: 0; cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,.16);
+  }
+  .print-btn:hover { background: #B87900; }
+  .print-btn:focus-visible { outline: 2px solid #005457; outline-offset: 3px; }
+}
+@media print { .print-btn { display: none !important; } }
+</style>
+</head><body><button type="button" class="print-btn" onclick="window.print()">🖨️ Imprimer / PDF A3</button><header><div class="eyebrow">ECE · École d’ingénieurs / ING3 · 2026–2027</div><h1>Operating Systems: Linux</h1><div class="subtitle">Planning pédagogique · Diagramme de Gantt · 15 février — 25 avril 2027</div></header><main><div class="metrics"><div class="metric"><strong>7 × 4 h</strong>Enseignement · cours &amp; TP</div><div class="metric"><strong>6 + 1</strong>Tests SEB + interro sur feuille</div><div class="metric"><strong>S12 → S15</strong>Projet · 22 mars au 18 avril</div><div class="metric"><strong>3 × 2 h</strong>Soutenances · S16</div></div><div class="toolbar"><div class="legend"><span><i class="dot legend-course"></i>Cours &amp; activités</span><span><i class="dot legend-tp"></i>TP</span><span><i class="dot legend-seb"></i>Test SEB</span><span><i class="dot legend-interro"></i>Interro sur feuille</span><span><i class="dot legend-ds"></i>Devoir surveillé</span><span><i class="dot legend-project"></i>Projet</span><span><i class="dot legend-holiday"></i>Vacances</span></div></div><div class="scroll"><table><thead><tr><th class="rowlabel" rowspan="2">Activités / Semaines</th><th class="week" colspan="2">S7<small>15 fév. 2027</small></th><th class="week" colspan="2">S8<small>22 fév. 2027</small></th><th class="week" colspan="2">S9<small>1 mars 2027</small></th><th class="week" colspan="2">S10<small>8 mars 2027</small></th><th class="week" colspan="2">S11<small>15 mars 2027</small></th><th class="week" colspan="2">S12<small>22 mars 2027</small></th><th class="week" colspan="2">S13<small>29 mars 2027</small></th><th class="week" colspan="2">S14<small>5 avr. 2027</small></th><th class="week" colspan="2">S15<small>12 avr. 2027</small></th><th class="week" colspan="3">S16<small>19 avr. 2027</small></th></tr><tr><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th aria-label="Zone de semaine" class="fullholiday empty-week" colspan="2"></th><th aria-label="Zone de semaine" class="fullproject empty-week" colspan="2"></th><th>Séance 1 · 2 h</th><th>Séance 2 · 2 h</th><th>Séance 3 · 2 h</th></tr></thead><tbody><tr><th class="rowlabel">Partie du syllabus</th><td class="phase" colspan="2">P1 · Fondamentaux et architecture Linux</td><td class="phase" colspan="2">P2 · Commandes avancées et traitement de données</td><td class="phase" colspan="2">P3 · Scripts shell et automatisation</td><td class="phase" colspan="2">P4 · Processus et exécution des programmes</td><td class="phase" colspan="2">P5 · Systèmes de fichiers et sécurité des accès</td><td class="phase" colspan="2">P6 · Mémoire et observation du système</td><td class="phase" colspan="2">P7 · Ouvertures technologiques Linux</td><td class="slot fullholiday merged-block" colspan="2" rowspan="5">Vacances de Pâques</td><td class="slot fullproject merged-block" colspan="2" rowspan="5">Projet · finalisation</td><td class="phase" colspan="3">Soutenances du projet</td></tr><tr><th class="rowlabel"><span class="session-title">Cours &amp; activités</span><span class="session-detail">Séance 1 · 2 h</span></th><td aria-label="Architecture &amp; environnement système — Activité Exploration guidée de l'arborescence système, identification des répertoires clés et de leur rôle" class="slot" data-description="Activité Exploration guidée de l'arborescence système, identification des répertoires clés et de leur rôle" role="button" tabindex="0"><span class="pill course">Architecture &amp; environnement système</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Flux, pipes &amp; outils Unix classiques — Activité Extraction et comptage de données depuis un fichier texte structuré (journal, CSV, liste)" class="slot" data-description="Activité Extraction et comptage de données depuis un fichier texte structuré (journal, CSV, liste)" role="button" tabindex="0"><span class="pill course">Flux, pipes &amp; outils Unix classiques</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Structure d'un script &amp; contrôle de flux — Activité Écriture d'un script de sauvegarde incrémentale avec rapport de sortie et gestion des arguments" class="slot" data-description="Activité Écriture d'un script de sauvegarde incrémentale avec rapport de sortie et gestion des arguments" role="button" tabindex="0"><span class="pill course">Structure d'un script &amp; contrôle de flux</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Processus, threads &amp; cycle de vie — Activité Observation de la création de processus parent/enfant, envoi de signaux et analyse de l'arbre de processus" class="slot" data-description="Activité Observation de la création de processus parent/enfant, envoi de signaux et analyse de l'arbre de processus" role="button" tabindex="0"><span class="pill course">Processus, threads &amp; cycle de vie</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Inodes, permissions &amp; utilisateurs — Activité Diagnostic et correction d'un système avec des droits incorrects : analyse, identification, correction documentée" class="slot" data-description="Activité Diagnostic et correction d'un système avec des droits incorrects : analyse, identification, correction documentée" role="button" tabindex="0"><span class="pill course">Inodes, permissions &amp; utilisateurs</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Mémoire virtuelle &amp; noyau — Activité Lecture et interprétation de /proc/meminfo, /proc/cpuinfo et /proc/[pid]/maps d'un processus en cours" class="slot" data-description="Activité Lecture et interprétation de /proc/meminfo, /proc/cpuinfo et /proc/[pid]/maps d'un processus en cours" role="button" tabindex="0"><span class="pill course">Mémoire virtuelle &amp; noyau</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Réseau Linux &amp; services — TP Connexion SSH, exploration d'un service actif, diagnostic réseau complet sur un environnement de test" class="slot" data-description="TP Connexion SSH, exploration d'un service actif, diagnostic réseau complet sur un environnement de test" role="button" tabindex="0"><span class="pill course">Réseau Linux &amp; services</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td></tr><tr><th class="rowlabel"><span class="session-title">Travaux pratiques (TP)</span><span class="session-detail">Séance 2 · 2 h · dominante TP</span></th><td class="slot"><span class="muted">—</span></td><td aria-label="Commandes fondamentales &amp; documentation — TP Mini-enquête système : localiser, décrire et analyser des fichiers de configuration réels à partir d'indices fournis" class="slot" data-description="TP Mini-enquête système : localiser, décrire et analyser des fichiers de configuration réels à partir d'indices fournis" role="button" tabindex="0"><span class="pill tp">Commandes fondamentales &amp; documentation</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="awk, sed &amp; pipelines complexes — TP Challenge pipeline : extraire des statistiques d'un journal d'accès web au format Combined Log Format" class="slot" data-description="TP Challenge pipeline : extraire des statistiques d'un journal d'accès web au format Combined Log Format" role="button" tabindex="0"><span class="pill tp">awk, sed &amp; pipelines complexes</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Robustesse, erreurs &amp; automatisation — TP Script de monitoring système : alerte si charge CPU ou mémoire dépasse un seuil, journalisation horodatée, planification cron" class="slot" data-description="TP Script de monitoring système : alerte si charge CPU ou mémoire dépasse un seuil, journalisation horodatée, planification cron" role="button" tabindex="0"><span class="pill tp">Robustesse, erreurs &amp; automatisation</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Observation &amp; introspection système — TP Analyse comportementale d'un binaire : identifier ses ressources, fichiers ouverts et interactions réseau via strace" class="slot" data-description="TP Analyse comportementale d'un binaire : identifier ses ressources, fichiers ouverts et interactions réseau via strace" role="button" tabindex="0"><span class="pill tp">Observation &amp; introspection système</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Liens, montage &amp; types de FS — TP Création d'une arborescence sécurisée multi-utilisateurs, gestion des droits partagés, montage d'un FS virtuel" class="slot" data-description="TP Création d'une arborescence sécurisée multi-utilisateurs, gestion des droits partagés, montage d'un FS virtuel" role="button" tabindex="0"><span class="pill tp">Liens, montage &amp; types de FS</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Observation &amp; diagnostic système — TP Diagnostic d'un système dégradé : identifier la source de surcharge (mémoire, CPU, I/O) à partir des outils d'observation" class="slot" data-description="TP Diagnostic d'un système dégradé : identifier la source de surcharge (mémoire, CPU, I/O) à partir des outils d'observation" role="button" tabindex="0"><span class="pill tp">Observation &amp; diagnostic système</span></td><td class="slot"><span class="muted">—</span></td><td aria-label="Conteneurs &amp; Linux embarqué — TP Lancement d'un conteneur minimal OU exploration d'un système Linux embarqué ; synthèse comparative en binôme" class="slot" data-description="TP Lancement d'un conteneur minimal OU exploration d'un système Linux embarqué ; synthèse comparative en binôme" role="button" tabindex="0"><span class="pill tp">Conteneurs &amp; Linux embarqué</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td></tr><tr><th class="rowlabel">Tests SEB</th><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill seb">Test SEB 1<br/><small>20 min<br/>30ᵉ–50ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill seb">Test SEB 2<br/><small>20 min<br/>30ᵉ–50ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill seb">Test SEB 3<br/><small>20 min<br/>30ᵉ–50ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill seb">Test SEB 4<br/><small>20 min<br/>30ᵉ–50ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill seb">Test SEB 5<br/><small>20 min<br/>30ᵉ–50ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill seb">Test SEB 6<br/><small>20 min<br/>30ᵉ–50ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td></tr><tr><th class="rowlabel">Interro sur feuille</th><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="pill interro">Interro 1<small>max 60 min<br/>0ᵉ–60ᵉ min</small></span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td><td class="slot"><span class="muted">—</span></td></tr><tr><th class="rowlabel">Projet transversal</th><td class="muted" colspan="2">—</td><td class="muted" colspan="2">—</td><td class="muted" colspan="2">—</td><td class="muted" colspan="2">—</td><td class="muted" colspan="2">—</td><td class="projectphase" colspan="2"><span class="project-milestone start">Lancement du projet</span></td><td class="projectphase" colspan="2"><span class="project-milestone develop">Développement &amp; suivi</span></td><td class="projectphase" colspan="2"><span class="project-milestone autonomous">Travail autonome · vacances</span></td><td class="projectphase" colspan="2"><span class="project-milestone finalize">Finalisation &amp; préparation</span></td><td class="projectphase" colspan="3"><span class="project-milestone defend"><span class="defend-title">Soutenances · 6 h</span><span class="defend-subtitle">≈ 30 min / équipe</span></span></td></tr><tr><th class="rowlabel">Devoir surveillé</th><td class="ds-cell" colspan="21"><span class="ds-block"><strong>DS · 1 h 30</strong><span>Date à communiquer dès que possible</span></span></td></tr></tbody></table></div><p class="note">Les intitulés des sept parties et des séances sont issus du syllabus officiel du module <em>Operating Systems: Linux</em>. Survolez une séance pour consulter le descriptif de son activité ou TP. Les tests SEB ont lieu pendant la séance 2 (20 min, de la 30ᵉ à la 50ᵉ minute), sauf en S11 où une interrogation sur feuille remplace le test SEB prévu (60 min maximum, de la 0ᵉ à la 60ᵉ minute de la séance 2). Le projet commence en S12, se poursuit jusqu’en S15 et se conclut par les soutenances de S16. Un devoir surveillé de 1 h 30 est également prévu ; sa date sera communiquée dès que possible.</p><div class="foot">ECE · ING3 · Operating Systems: Linux · Document de planification pédagogique</div></main><script>
+(() => {
+  const tooltip = document.createElement('div');
+  tooltip.id = 'session-tooltip';
+  tooltip.setAttribute('role', 'tooltip');
+  document.body.appendChild(tooltip);
+  let active = null;
+  let pinned = false;
+  const targetOf = el => el && el.closest ? el.closest('td.slot[data-description]') : null;
+  function position(x, y) {
+    const pad = 12;
+    const w = tooltip.offsetWidth, h = tooltip.offsetHeight;
+    tooltip.style.left = Math.max(pad, Math.min(x + 14, innerWidth - w - pad)) + 'px';
+    tooltip.style.top = Math.max(pad, Math.min(y + 16, innerHeight - h - pad)) + 'px';
+  }
+  function show(cell, x, y, pin = false) {
+    active = cell; pinned = pin;
+    tooltip.textContent = cell.dataset.description;
+    tooltip.classList.add('visible');
+    position(x, y);
+  }
+  function hide() {
+    tooltip.classList.remove('visible');
+    active = null; pinned = false;
+  }
+  document.addEventListener('mouseover', e => {
+    const cell = targetOf(e.target);
+    if (cell && !pinned) show(cell, e.clientX, e.clientY);
+  });
+  document.addEventListener('mousemove', e => {
+    if (active && !pinned) position(e.clientX, e.clientY);
+  });
+  document.addEventListener('mouseout', e => {
+    if (active && !pinned && targetOf(e.target) === active &&
+        (!e.relatedTarget || !active.contains(e.relatedTarget))) hide();
+  });
+  document.addEventListener('focusin', e => {
+    const cell = targetOf(e.target);
+    if (cell) {
+      const r = cell.getBoundingClientRect();
+      show(cell, r.left + r.width / 2, r.top, false);
+    }
+  });
+  document.addEventListener('focusout', e => {
+    if (active && !pinned && active === targetOf(e.target)) hide();
+  });
+  document.addEventListener('click', e => {
+    const cell = targetOf(e.target);
+    if (!cell) { hide(); return; }
+    if (active === cell && pinned) hide();
+    else {
+      const r = cell.getBoundingClientRect();
+      show(cell, r.left + r.width / 2, r.top + r.height / 2, true);
+    }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
+  document.querySelector('.scroll')?.addEventListener('scroll', hide, {passive:true});
+})();
+</script></body></html>
